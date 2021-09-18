@@ -1,5 +1,7 @@
 export default {
-  globalTheme: false,
-  token: null,
-  navbar: false
+  globalSnackBar: {
+    show: false,
+    type: "",
+    text: ""
+  }
 }

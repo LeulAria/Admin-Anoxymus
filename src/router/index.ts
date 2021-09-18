@@ -11,7 +11,6 @@ const router = new VueRouter({
   routes,
 });
 
-
 // Auth Guard
 router.beforeEach((to, form, next) => {
   if (to.matched.some((record: any) => record.meta.requiresAuth)) {

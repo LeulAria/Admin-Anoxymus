@@ -14,3 +14,7 @@ export const REMOVE_TOKEN = (state: any) => {
 export const TOGGLE_NAV_SHOW = (state: any, show: boolean) => {
   state.navbar = show;
 }
+
+export const LOGOUT_USER = (state: any) => {
+  state.user = null;
+}

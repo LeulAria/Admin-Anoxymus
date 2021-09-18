@@ -6,7 +6,7 @@ export const navbar = (state: any) => {
 }
 export const loggedIn = (state: any): boolean => {
   return (
-    state.user !== null &&
-    state.user !== undefined
+    state?.user.email !== null &&
+    state?.user.email !== undefined
   );
 }

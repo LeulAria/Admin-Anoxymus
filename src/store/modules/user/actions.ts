@@ -8,10 +8,5 @@ export interface IUser {
 }
 
 export const setUser = (context: any, user: IUser) => {
-  context.commit('SET_USER', user )
-}
-
-export const logOut = (context: any) => {
-  localStorage.clear();
-  context.commit('LOGOUT_USER');
+  context.commit('SET_USER', user)
 }

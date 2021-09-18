@@ -5,5 +5,5 @@ export const userAvatar = (store: any) => {
   return store.user.avatar;
 }
 export const isLoggedIn = (store: any) => {
-  return store.user ? true : false
+  return store?.user?.email ? true : false
 }

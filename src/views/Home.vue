@@ -47,37 +47,6 @@
         <v-icon>mdi-bell</v-icon>
       </v-btn>
       <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              v-bind="attrs"
-              v-on="on"
-              elevation="0"
-              icon
-              class="d-inline d-md-none"
-            >
-              <v-avatar
-                color="primary"
-                size="30"
-              >
-                <img
-                  src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light" />
-              </v-avatar>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item>
-              <v-list-item-title>
-                View profile
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="logout">
-              <v-list-item-title>
-                Logout
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-      </v-menu>
-      <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             v-bind="attrs"
@@ -103,7 +72,7 @@
               View profile
             </v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link @click="logout">
             <v-list-item-title>
               Logout
             </v-list-item-title>
@@ -122,8 +91,13 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { mapActions } from 'vuex';
 
-@Component({})
+@Component({
+  methods: {
+    ...mapActions(["logOut"])
+  }
+})
 export default class Home extends Vue {
   cards = ["Today", "Yesterday"];
   drawer = null;
@@ -131,9 +105,14 @@ export default class Home extends Vue {
     ["mdi-view-dashboard", "Dashboard", "/dashboard"],
     ["mdi-inbox-arrow-down", "Users", "/users"],
   ];
+  logOut!: () => void;
 
   logout() {
-    this.$store.dispatch("user/logOut")
+    this.logOut();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+    // this.$router.push({ name: "Login" });
   }
 }
 </script>

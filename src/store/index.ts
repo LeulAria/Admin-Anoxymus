@@ -23,12 +23,12 @@ export default new Vuex.Store({
   actions,
   modules: {
     app: appModule,
-    user: userModule,
+    user: userModule
   },
   plugins: [
     new VuexPersistence({
       storage: window.localStorage,
-      key: 'app',
+      key: 'app-cache',
     }).plugin,
   ],
 })

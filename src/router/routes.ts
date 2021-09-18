@@ -28,7 +28,7 @@ const routes: Array<RouteConfig> = [
       },
       {
         path: "/users/:id",
-        name: "Users",
+        name: "Users-Detail",
         component: () => import('@/views/Users/detail.vue'),
         meta: {
           requiresAuth: true
@@ -61,16 +61,7 @@ const routes: Array<RouteConfig> = [
         },
       }
     ]
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: () =>
-      import("../views/About.vue"),
-    meta: {
-      requiresVisitor: true
-    },
-  },
+  }
 ];
 
 export default routes
