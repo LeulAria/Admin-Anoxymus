@@ -43,7 +43,7 @@ export default class Login extends Vue {
     try {
       const res = await signInWithEmailAndPassword(auth, this.email, this.password);
       this.loggingIn = false;
-      const token = await res.user.getIdToken();
+      // const token = await res.user.getIdToken();
       this.toggleGlobalSnackBar({
         show: true,
         type: "success",

@@ -16,5 +16,5 @@ export const TOGGLE_NAV_SHOW = (state: any, show: boolean) => {
 }
 
 export const LOGOUT_USER = (state: any) => {
-  state.user = null;
+  state.user = {  };
 }
