@@ -40,19 +40,6 @@ import { Vue, Component } from "vue-property-decorator";
 export default class App extends Vue {
   globalSnackBar!: any;
   toggleGlobalSnackBar!: (payload: boolean) => void;
-
-  created() {
-    this.fetchData();
-  }
-
-  async fetchData() {
-    try {
-      const res = await Resource.todo.todo().get();
-      console.log("RESPONSE: ", res);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 }
 </script>
 

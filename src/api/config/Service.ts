@@ -1,6 +1,6 @@
 import API from './API';
 import { AppResponse } from './types';
-import { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
+import { AxiosResponse, Method } from 'axios';
 
 interface ServiceAPI<Response, Payload> {
   get: () => Promise<AxiosResponse<AppResponse<Response>>>;
@@ -30,8 +30,8 @@ export class Service<Response, Payload> implements ServiceAPI<Response, Payload>
   pipe(payload?: Payload): Promise<AxiosResponse<AppResponse<Response>>> {
     return API({
       method: this.method as Method,
-      url: this.url,
       data: payload,
+      url: this.url,
     });
   }
 }

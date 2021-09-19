@@ -1,17 +1,20 @@
 import axios from 'axios';
+import { HOST, APP_LOGIN_ROUTE, APP_API_KEY } from './../../config/appConfig';
 
 // server env
-const loginURL = "/login";
-export const baseURL = "https://remitnew.herokuapp.com";
+const loginURL = APP_LOGIN_ROUTE;
+export const baseURL = HOST;
+const apiKey = APP_API_KEY;
 
 const API = axios.create({
   baseURL,
   headers: {
     Authorization: localStorage.getItem("cache-item")
-      ? 'Bearer ' + localStorage.getItem("cache-item")
-      : null,
+    ? 'Bearer ' + localStorage.getItem("cache-item")
+    : null,
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    apiKey,
   },
 });
 

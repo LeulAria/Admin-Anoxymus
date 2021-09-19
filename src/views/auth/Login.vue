@@ -24,6 +24,7 @@ import { Vue, Component } from "vue-property-decorator";
 import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { mapActions } from 'vuex';
+import * as Resource from "../../api/Resource";
 
 @Component({
   methods: {
@@ -42,21 +43,29 @@ export default class Login extends Vue {
     this.loggingIn = true;
     try {
       const res = await signInWithEmailAndPassword(auth, this.email, this.password);
+      const token = await res.user.getIdToken();
+      
+      const loginFBRes = await Resource.users.signInWithFirebase().pipe({
+        credential: {
+          loginMethod: "email",
+          firebaseIdToken: token
+        }
+      });
+
       this.loggingIn = false;
-      // const token = await res.user.getIdToken();
       this.toggleGlobalSnackBar({
         show: true,
         type: "success",
         text: "Welcome back!"
       });
-      this.$store.dispatch("user/setUser", { username: "Jean", email: res.user.email });
+      this.$store.dispatch("user/setUser", loginFBRes.data);
       setTimeout(() => this.$router.push({ name: "Dashboard" }), 300);
     } catch(err) {
       this.loggingIn = false;
       this.toggleGlobalSnackBar({
         show: true,
         type: "error",
-        text: err.code
+        text: err.code?.split("/")[1] || "Unknown error pccured please try again!"
       });
     }
   }

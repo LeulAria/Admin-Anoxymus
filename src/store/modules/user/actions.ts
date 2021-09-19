@@ -1,3 +1,5 @@
+import { User } from "@/api/config/Users"
+
 export interface IUser {
   uid: string;
   email: string;
@@ -7,6 +9,6 @@ export interface IUser {
   stuff: boolean;
 }
 
-export const setUser = (context: any, user: IUser) => {
+export const setUser = (context: any, user: User) => {
   context.commit('SET_USER', user)
 }
