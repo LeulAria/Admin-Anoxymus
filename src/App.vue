@@ -25,7 +25,6 @@
 </template>
 
 <script lang="ts">
-import { Resource } from "./api/Resource";
 import { mapGetters, mapActions } from 'vuex'
 import { Vue, Component } from "vue-property-decorator";
 

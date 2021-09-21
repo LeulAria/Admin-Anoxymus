@@ -27,9 +27,9 @@ const routes: Array<RouteConfig> = [
         },
       },
       {
-        path: "/users/:id",
-        name: "Users-Detail",
-        component: () => import('@/views/Users/detail.vue'),
+        path: "users/:id",
+        name: "Update User",
+        component: () => import('@/views/Users/updateUser.vue'),
         meta: {
           requiresAuth: true
         },    

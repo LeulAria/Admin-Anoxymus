@@ -13,6 +13,7 @@
         <h4>Create a new user</h4>
       </div>
     </div>
+
     <ValidationObserver ref="loginObserver">
       <form>
         <v-card max-width="800" elevation="0" class="mx-auto">
@@ -163,7 +164,7 @@
             :disabled="loaidng"
             @click="submit"
           >
-            <span>Create User</span>
+            <span>Update User</span>
           </v-btn>
         </v-card>
       </form>
@@ -172,10 +173,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import * as Resource from "../../api/Resource";
 import { mapActions } from 'vuex'
 import { TogglePayload } from "../../store/modules/app/state";
+import { Instance } from "../../api/config/Users";
 
 @Component({
   methods: {
@@ -183,6 +185,7 @@ import { TogglePayload } from "../../store/modules/app/state";
   }
 })
 export default class CreateUser extends Vue {
+  @Prop() payload!: Instance;
   email = "";
   loading = false;
   toggleGlobalSnackBar!: (payload: TogglePayload) => void;
@@ -208,6 +211,7 @@ export default class CreateUser extends Vue {
     enablePromotionsEmail: true,
     enableNewsAndUpdateSms: true,
     enableNewsAndUpdateEmail: true,
+    ...this.$route.params.payload
   };
 
   checkBoxFields1 = {
@@ -284,13 +288,12 @@ export default class CreateUser extends Vue {
           console.log("FORM DATA: ", this.userCred);
           try {
             if(this.userCred) {
-              const user = await Resource.users.createUser().pipe(this.userCred);
-              console.log("USER CREATED: ", user);
+              const user = await Resource.users.updateUser(this.$route.params.payload.id).pipe(this.userCred);
               this.loading = false;
               this.toggleGlobalSnackBar({
                 show: true,
                 type: "success",
-                text: "User created successfully!",
+                text: "User updated successfully!",
               });
               this.goBack();
             }

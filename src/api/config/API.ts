@@ -6,11 +6,13 @@ const loginURL = APP_LOGIN_ROUTE;
 export const baseURL = HOST;
 const apiKey = APP_API_KEY;
 
+const token = JSON.parse(localStorage.getItem("app-cache") || "")?.user?.user?.token || null;
+
 const API = axios.create({
   baseURL,
   headers: {
-    Authorization: localStorage.getItem("cache-item")
-    ? 'Bearer ' + localStorage.getItem("cache-item")
+    Authorization: token
+    ? 'Bearer ' + token
     : null,
     'Content-Type': 'application/json',
     Accept: 'application/json',

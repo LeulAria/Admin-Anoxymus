@@ -8,7 +8,10 @@
 </template>
 
 <script>
-export default {};
+import { Vue, Component } from 'vue-property-decorator';
+
+@Component({ })
+export default class UserDetail extends Vue {};
 </script>
 
 <style>

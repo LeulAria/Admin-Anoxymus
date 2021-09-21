@@ -1,3 +1,5 @@
-export const toggleGlobalSnackBar = (context: any, payload: any) => {
+import { TogglePayload } from "./state"
+
+export const toggleGlobalSnackBar = (context: any, payload: TogglePayload) => {
   context.commit("TOGGLE_GLOBAL_SNACKBAR", payload)
 }

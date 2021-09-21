@@ -111,8 +111,8 @@ export default class Home extends Vue {
     this.logOut();
     setTimeout(() => {
       window.location.reload();
+      this.$router.push({ name: "Login" });
     }, 1000);
-    // this.$router.push({ name: "Login" });
   }
 }
 </script>
