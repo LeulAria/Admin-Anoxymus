@@ -10,7 +10,7 @@
         <v-avatar color="gray lighten-4" size="90">
           <v-icon class="display-3 gray--text">mdi-account</v-icon>
         </v-avatar>
-        <h4>Create a new user</h4>
+        <h4>Update user detail</h4>
       </div>
     </div>
 
