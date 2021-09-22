@@ -41,6 +41,22 @@ const routes: Array<RouteConfig> = [
         meta: {
           requiresAuth: true
         },    
+      },
+      {
+        path: "transactions/:id",
+        name: "Update Transaction",
+        component: () => import('@/views/Transactions/updateUser.vue'),
+        meta: {
+          requiresAuth: true
+        },    
+      },
+      {
+        path: "transactions",
+        name: "Transactions",
+        component: () => import('@/views/Transactions/index.vue'),
+        meta: {
+          requiresAuth: true
+        },    
       }
     ],
   },

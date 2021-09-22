@@ -7,7 +7,7 @@
       dark
       v-model="drawer"
       color="#222"
-      src="https://picsum.photos/1920/1080?random"
+      src="https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
     >
       <div class="py-3 px-5">
         <v-avatar class="mb-1" color="grey darken-4" size="64"></v-avatar>
@@ -103,7 +103,8 @@ export default class Home extends Vue {
   drawer = null;
   links = [
     ["mdi-view-dashboard", "Dashboard", "/dashboard"],
-    ["mdi-inbox-arrow-down", "Users", "/users"],
+    ["mdi-account-circle", "Users", "/users"],
+    ["mdi-dns", "Transactions", "/transactions"],
   ];
   logOut!: () => void;
 

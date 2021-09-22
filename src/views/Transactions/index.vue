@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0">
     <v-card-title>
-      Users
+      Transactions
       <v-spacer></v-spacer>
       <div class="top-search-bar">
         <v-text-field
@@ -12,17 +12,8 @@
           hide-details
         ></v-text-field>
         <div class="d-flex ml-5">
-          <router-link
-            class="link"
-            :to="{ name: 'Create-User', params: { userId: 123 } }"
-          >
-            <v-btn color="primary" outlined elevation="0">
-              <v-icon class="mr-1">mdi-plus</v-icon>
-              Add User
-            </v-btn>
-          </router-link>
           <div class="ml-3">
-            <v-btn color="primary" icon elevation="0" @click="fetchUsers">
+            <v-btn color="primary" icon elevation="0" @click="fetchTopups">
               <v-icon>mdi-reload</v-icon>
             </v-btn>
           </div>
@@ -35,33 +26,22 @@
       :items="users"
       :search="search"
     >
-      <template v-slot:item.profilePhotoUrl="{ item }">
-        <div style="margin: 10px">
-          <v-avatar size="45" style="border-radius: 5px" color="primary">
-            <img
-              v-if="item.profilePhotoUrl"
-              :src="item.profilePhotoUrl"
-              :alt="item.profilePhotoUrl"
-            />
-            <v-icon v-else dark> mdi-account-circle </v-icon>
-          </v-avatar>
-        </div>
+      <template v-slot:item.destinationNumber="{ item }">
+        <b>+{{ item.destinationNumber }}</b>
       </template>
-      <template v-slot:item.emailVerified="{ item }">
-        <v-chip :color="getBoolenColor(item.emailVerified)" dark>
-          {{ item.emailVerified ? "Verified" : "Not Verified" }}
+      <template v-slot:item.type="{ item }">
+        <div>{{ item.type | replaceAll("_", " ") }}</div>
+      </template>
+      <template v-slot:item.status="{ item }">
+        <v-chip :color="getBooleanColorTriple(item.paymentInfo.status==='PENDING' ? 0 : 1)" dark>
+          {{ item.paymentInfo.status }}
         </v-chip>
       </template>
-      <template v-slot:item.isBanned="{ item }">
-        <v-chip :color="getBoolenColor(!item.emailVerified)" dark>
-          {{ item.emailVerified ? "Bannded" : "Active" }}
-        </v-chip>
+      <template v-slot:item.amount="{ item }">
+        <b>{{ item.paymentInfo.currency }} {{ item.paymentInfo.amount }}</b>
       </template>
-      <template v-slot:item.role="{ item }">
-        <b>{{ item.role.toUpperCase() }}</b>
-      </template>
-      <template v-slot:item.modifiedAt="{ item }">
-        <div style="white-space: nowrap;">{{ item.modifiedAt | dayjsDate }}</div>
+      <template v-slot:item.createdAt="{ item }">
+        <div style="white-space: nowrap;">{{ item.createdAt | dayjsDate }}</div>
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="d-flex">
@@ -130,11 +110,11 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-import { Instance, User } from "../../api/config/Users";
-import * as Resource from "../../api/Resource";
-import { TogglePayload } from '../../store/modules/app/state'
 import { mapActions } from 'vuex'
+import * as Resource from "../../api/Resource";
+import { Topup } from "../../api/config/Transactions";
+import { Vue, Component } from "vue-property-decorator";
+import { TogglePayload } from '../../store/modules/app/state'
 
 @Component({
   methods: {
@@ -146,30 +126,27 @@ export default class Users extends Vue {
   loadingUses = false;
   deletingItemPending = false;
   deleteConfirmationDialog = false;
-  itemToDelete: Instance | null = null;
+  itemToDelete: Topup | null = null;
   toggleGlobalSnackBar!: (payload: TogglePayload) => void;
   headers = [
     {
-      text: "Profile Photo",
-      value: "profilePhotoUrl",
+      text: "Destination Number",
+      value: "destinationNumber",
       align: "start",
       sortable: false,
     },
-    { text: "Display Name", value: "displayName" },
-    { text: "Email", value: "email" },
-    { text: "Email Verified", value: "emailVerified", sortable: false },
-    { text: "Phone", value: "phone" },
-    { text: "Telegram Name", value: "telegramName" },
-    { text: "Role", value: "role" },
-    { text: "Is Banned", value: "isBanned" },
-    { text: "Updated At", value: "modifiedAt" },
+    { text: "Type", value: "type" },
+    { text: "Payment Status", value: "status" },
+    { text: "Amount", value: "amount" },
+    { text: "Created At", value: "createdAt" },
     { text: "Actions", value: "actions", sortable: false },
   ];
-  users: User[] = [];
+  users: Topup[] = [];
 
-  async fetchUsers() {
+  async fetchTopups() {
     this.loadingUses = true;
-    const res = await Resource.users.getUsers().get();
+    const res = await Resource.transactions.getAllTransactions().get();
+    console.log(res?.data)
     this.users = res?.data || [];
     this.loadingUses = false;
   }
@@ -177,21 +154,24 @@ export default class Users extends Vue {
   getBoolenColor(isVerified: boolean) {
     return isVerified ? "green" : "red";
   }
-
-  created() {
-    this.fetchUsers();
+  getBooleanColorTriple(value: number) {
+    return value===0 ? "blue" : value===1 ? "green" : "red"
   }
 
-  setItemToDelete(item: Instance) {
+  created() {
+    this.fetchTopups();
+  }
+
+  setItemToDelete(item: Topup) {
     this.itemToDelete = item;
     this.deleteConfirmationDialog = true;
   }
 
-  updateUser(item: Instance) {
+  updateUser(item: Topup) {
     this.$router.push({
-      name: `Update User`,
+      name: `Update Transaction`,
       params: {
-        id: item.email,
+        id: item.id,
         // @ts-ignore
         payload: item
       }
@@ -204,14 +184,14 @@ export default class Users extends Vue {
       this.deletingItemPending = true;
       console.log(this.itemToDelete?.id)
       try {
-        const res = await Resource.users.deleteUser(this.itemToDelete.id || "").pipe();
+        const res = await Resource.transactions.deleteTransaction(this.itemToDelete.id || "").pipe();
         this.toggleGlobalSnackBar({
           show: true,
           type: "error",
-          text: "User deleted successfully!",
+          text: "Transaction item deleted successfully!",
         });
         this.deletingItemPending = false;
-        this.fetchUsers();
+        this.fetchTopups();
       } catch(e) {
         console.log(e)
         this.toggleGlobalSnackBar({

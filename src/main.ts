@@ -5,7 +5,10 @@ import store from "@/store";
 import router from "./router";
 import "./registerServiceWorker";
 import vuetify from "./plugins/vuetify";
+
+// utils
 import '@/utils/validation_observer'
+import '@/utils/filters'
 
 import "vuetify/dist/vuetify.min.css";
 import '@mdi/font/css/materialdesignicons.css'
