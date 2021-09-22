@@ -59,17 +59,16 @@ export default class Login extends Vue {
         this.email,
         this.password
       );
-
       const token = await res.user.getIdToken();
-  
-      const loginFBRes = await Resource.users.signInWithFirebase().pipe({
+      const payload = {
         credential: {
           loginMethod: "email",
-          firebaseIdToken: token,
+          firebaseIdToken: token || "",
         },
-      });
+      }
+      const loginFBRes = await Resource.users.signInWithFirebase().pipe(payload);
 
-      this.$store.dispatch("user/setUser", loginFBRes.data);
+      this.$store.dispatch("user/setUser", loginFBRes?.data);
       setTimeout(() => {
         this.$router.push({ name: "Dashboard" })
         this.toggleGlobalSnackBar({

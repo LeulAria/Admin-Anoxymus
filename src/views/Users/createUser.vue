@@ -284,6 +284,7 @@ export default class CreateUser extends Vue {
           console.log("FORM DATA: ", this.userCred);
           try {
             if(this.userCred) {
+              // @ts-ignore
               const user = await Resource.users.createUser().pipe(this.userCred);
               console.log("USER CREATED: ", user);
               this.loading = false;

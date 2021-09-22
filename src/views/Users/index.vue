@@ -189,6 +189,7 @@ export default class Users extends Vue {
       name: `Update User`,
       params: {
         id: item.email,
+        // @ts-ignore
         payload: item
       }
     });

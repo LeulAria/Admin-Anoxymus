@@ -211,6 +211,7 @@ export default class CreateUser extends Vue {
     enablePromotionsEmail: true,
     enableNewsAndUpdateSms: true,
     enableNewsAndUpdateEmail: true,
+    // @ts-ignore
     ...this.$route.params.payload
   };
 
@@ -288,6 +289,7 @@ export default class CreateUser extends Vue {
           console.log("FORM DATA: ", this.userCred);
           try {
             if(this.userCred) {
+              // @ts-ignore
               const user = await Resource.users.updateUser(this.$route.params.payload.id).pipe(this.userCred);
               this.loading = false;
               this.toggleGlobalSnackBar({
