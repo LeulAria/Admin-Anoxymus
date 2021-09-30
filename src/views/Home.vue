@@ -115,7 +115,7 @@ export default class Home extends Vue {
 
   created() {
     if(this.isLoggedIn) {
-      // this.$router.push({ name: "Dashboard" })
+      this.$router.push({ name: "Dashboard" })
     }
   }
 

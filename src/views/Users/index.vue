@@ -12,20 +12,37 @@
           hide-details
         ></v-text-field>
         <div class="ml-3">
-          <v-btn color="primary" icon elevation="0" @click="fetchUsers">
-            <v-icon>mdi-reload</v-icon>
-          </v-btn>
+          <v-tooltip bottom>
+            <template v-slot:activator="{on, attrs}">
+              <v-btn
+                v-bind="attrs"
+                v-on="on"
+                color="primary"
+                icon
+                elevation="0"
+                @click="fetchUsers"
+              >
+                <v-icon>mdi-reload</v-icon>
+              </v-btn>
+            </template>
+            <span>Refresh</span>
+          </v-tooltip>
         </div>
         <div class="d-flex">
-          <router-link
-            class="link"
-            :to="{name: 'Create-User', params: {userId: 123}}"
-          >
-            <v-btn color="primary" text elevation="0">
-              <v-icon class="mr-1">mdi-plus</v-icon>
-              Add New
-            </v-btn>
-          </router-link>
+          <v-tooltip bottom>
+            <template v-slot:activator="{on, attrs}">
+              <router-link
+                class="link"
+                :to="{name: 'Create-User', params: {userId: 123}}"
+              >
+                <v-btn v-bind="attrs" v-on="on" color="primary" text elevation="0">
+                  <v-icon class="mr-1">mdi-plus</v-icon>
+                  Add New
+                </v-btn>
+              </router-link>
+            </template>
+            <span>Add new user to app</span>
+          </v-tooltip>
         </div>
       </div>
     </v-card-title>
@@ -67,7 +84,13 @@
         <div class="d-flex">
           <v-tooltip bottom>
             <template v-slot:activator="{on, attrs}">
-              <v-icon v-bind="attrs" v-on="on" medium class="mr-5" @click="updateUser(item)">
+              <v-icon
+                v-bind="attrs"
+                v-on="on"
+                medium
+                class="mr-5"
+                @click="updateUser(item)"
+              >
                 mdi-pencil
               </v-icon>
             </template>
@@ -76,16 +99,28 @@
 
           <v-tooltip bottom>
             <template v-slot:activator="{on, attrs}">
-              <v-icon v-bind="attrs" v-on="on" medium class="mr-5" @click="seeUserTransactions(item)">
+              <v-icon
+                v-bind="attrs"
+                v-on="on"
+                medium
+                class="mr-5"
+                @click="seeUserTransactions(item)"
+              >
                 mdi-receipt
               </v-icon>
             </template>
             <span>User Transactions</span>
           </v-tooltip>
-          
+
           <v-tooltip bottom>
             <template v-slot:activator="{on, attrs}">
-              <v-icon v-bind="attrs" v-on="on" medium class="mr-5" @click="setItemToDelete(item)">
+              <v-icon
+                v-bind="attrs"
+                v-on="on"
+                medium
+                class="mr-5"
+                @click="setItemToDelete(item)"
+              >
                 mdi-delete
               </v-icon>
             </template>

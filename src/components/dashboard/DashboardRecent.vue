@@ -1,13 +1,7 @@
 <template>
-  <v-card
-    class="mx-auto"
-  >
-    <v-toolbar
-      color="indigo"
-      dark
-      flat
-    >
-      <v-toolbar-title>Inbox</v-toolbar-title>
+  <v-card class="mx-auto">
+    <v-toolbar dark flat class="grey darken-4 white--text">
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -20,17 +14,9 @@
       </v-btn>
     </v-toolbar>
     <v-list>
-      <v-list-item
-        v-for="item in items"
-        :key="item.title"
-      >
+      <v-list-item v-for="item in items" :key="item.title">
         <v-list-item-icon>
-          <v-icon
-            v-if="item.icon"
-            color="pink"
-          >
-            mdi-star
-          </v-icon>
+          <v-icon v-if="item.icon" color="pink"> mdi-star </v-icon>
         </v-list-item-icon>
 
         <v-list-item-content>
@@ -45,17 +31,23 @@
   </v-card>
 </template>
 
-<script>
-  export default {
-    data () {
-      return {
-        items: [
-          { icon: true, title: 'Jason Oner', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg' },
-          { title: 'Travis Howard', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg' },
-          { title: 'Ali Connors', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg' },
-          { title: 'Cindy Baker', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg' },
-        ],
-      }
+<script lang="ts">
+import {Vue, Component, Prop} from "vue-property-decorator";
+
+@Component({})
+export default class DashboardRecent extends Vue {
+  @Prop({ default: "" })
+  title!: string;
+
+  items = [
+    {
+      icon: true,
+      title: "Jason Oner",
+      avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
     },
-  }
+    {title: "Travis Howard", avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg"},
+    {title: "Ali Connors", avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg"},
+    {title: "Cindy Baker", avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg"},
+  ];
+}
 </script>

@@ -15,7 +15,7 @@
             v-for="n in 4"
           >
             <v-card
-              class="indigo darken-4 white--text px-5 pt-4 rounded-lg min-heihgt"
+              class="grey darken-4 white--text px-5 pt-4 rounded-lg min-heihgt"
               outlined
               tile
             >
@@ -35,7 +35,9 @@
         cols="12"
         md="6"
       >
-        <dashboard-stata1 />
+        <dashboard-stata1
+          title="Latest Transactions"
+        />
       </v-col>
     </v-row>
     <v-row no-gutter justify="space-between">
@@ -45,7 +47,9 @@
         md="12"
         lg="6"
       >
-        <dashboard-recent />
+        <dashboard-recent
+          title="Users"
+        />
       </v-col>
       <v-col
         cols="12"
@@ -53,7 +57,9 @@
         md="6"
         lg="3"
       >
-        <dashboard-recent />
+        <dashboard-recent
+          title="Items"
+        />
       </v-col>
       <v-col
         cols="12"
