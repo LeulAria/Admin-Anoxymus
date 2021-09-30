@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0">
     <v-card-title>
-      Payment Providers
+      <h3 style="font-weight: 500;">Payment Providers</h3> 
       <v-spacer></v-spacer>
       <div class="top-search-bar">
         <v-text-field
@@ -45,6 +45,7 @@
       :headers="headers"
       :items="users"
       :search="search"
+      style="border: 1px solid #ddd"
     >
       <template v-slot:item.iconUrl="{item}">
         <div style="margin: 10px">
@@ -58,19 +59,19 @@
         <b>{{ item.name }}</b>
       </template>
       <template v-slot:item.activeForOneTime="{item}">
-        <v-chip :color="getBoolenColor(item.activeForOneTime)" dark>
+        <div :style="`color: ${getBoolenColor(item.activeForOneTime)}; font-weight: 600;`" dark>
           {{ item.activeForOneTime ? "Active" : "Not Active" }}
-        </v-chip>
+        </div>
       </template>
       <template v-slot:item.activeForSubscription="{item}">
-        <v-chip :color="getBoolenColor(item.activeForSubscription)" dark>
+        <div :style="`color: ${getBoolenColor(item.activeForSubscription)}; font-weight: 600;`" dark>
           {{ item.activeForSubscription ? "Active" : "Not Active" }}
-        </v-chip>
+        </div>
       </template>
       <template v-slot:item.shouldRewardPoints="{item}">
-        <v-chip :color="getBoolenColor(item.shouldRewardPoints)" dark>
+        <div :style="`color: ${getBoolenColor(item.shouldRewardPoints)}; font-weight: 600;`" dark>
           {{ item.shouldRewardPoints ? "Active" : "Not Active" }}
-        </v-chip>
+        </div>
       </template>
       <template v-slot:item.createdAt="{item}">
         <div style="white-space: nowrap">{{ item.createdAt | dayjsDate }}</div>
@@ -156,15 +157,15 @@ export default class Users extends Vue {
   itemToDelete: Instance | null = null;
   toggleGlobalSnackBar!: (payload: TogglePayload) => void;
   headers = [
-    {text: "Icon Url", value: "iconUrl"},
-    {text: "Name", value: "name", align: "start"},
-    {text: "Identifier", value: "identifier"},
-    {text: "Order/s", value: "order"},
-    {text: "Active For One Time", value: "activeForOneTime"},
-    {text: "Active For Subscription", value: "activeForSubscription"},
-    {text: "Should Reward Points", value: "shouldRewardPoints"},
-    {text: "Created At", value: "createdAt"},
-    {text: "Actions", value: "actions", sortable: false},
+    { divider: true, text: "Icon Url", value: "iconUrl"},
+    { divider: true, text: "Name", value: "name", align: "start"},
+    { divider: true, text: "Identifier", value: "identifier"},
+    { divider: true, text: "Order/s", value: "order"},
+    { divider: true, text: "Active For One Time", value: "activeForOneTime"},
+    { divider: true, text: "Active For Subscription", value: "activeForSubscription"},
+    { divider: true, text: "Should Reward Points", value: "shouldRewardPoints"},
+    { divider: true, text: "Created At", value: "createdAt"},
+    { divider: true, text: "Actions", value: "actions", sortable: false},
   ];
   users: PaymentProvider[] = [];
 

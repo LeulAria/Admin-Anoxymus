@@ -11,18 +11,19 @@
             sm="6"
             xs="12"
             cols="6"
-            :key="n"
-            v-for="n in 4"
+            :key="dashboardCardStat.title"
+            v-for="dashboardCardStat in dashboardCardStats"
           >
             <v-card
-              class="grey darken-4 white--text px-5 pt-4 rounded-lg min-heihgt"
+              class="white--text px-5 pt-4 rounded-lg min-heihgt"
               outlined
               tile
+              :style="`background: ${dashboardCardStat.color}`"
             >
               <div class="d-flex justify-space-between">
                 <div>
-                  <h1>{{ Math.floor(Math.random() * 100) }}</h1>
-                  <p>Users</p>
+                  <h1>{{ dashboardCardStat.value }}</h1>
+                  <p>{{ dashboardCardStat.title }}</p>
                 </div>
 
                 <v-icon dark class="display-2">mdi-account-multiple</v-icon>
@@ -77,6 +78,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import DashboardStat1 from '../components/dashboard/DashboardStat1.vue'
 import DashboardRecent from '../components/dashboard/DashboardRecent.vue'
+import * as Resource from '@/api/Resource'
 
 
 @Component({
@@ -86,7 +88,66 @@ import DashboardRecent from '../components/dashboard/DashboardRecent.vue'
   },
 })
 export default class Dashboard extends Vue {
+  dashboardCardStats = [
+    {
+      title: 'users',
+      color: "#3F6791",
+      icon: 'mdi-account-multiple',
+      value: 0
+    },
+    {
+      title: 'topups',
+      color: "#45BB77",
+      icon: 'mdi-account-multiple',
+      value: 0
+    },
+    {
+      title: 'topup amounts',
+      color: "#BB9988",
+      icon: 'mdi-account-multiple',
+      value: 0
+    },
+    {
+      title: 'points',
+      color: "#445544",
+      icon: 'mdi-account-multiple',
+      value: 0
+    }
+  ];
 
+  async created() {
+    const userCount = await Resource.users.getUsersCount().get();
+    const topupCount = await Resource.transactions.getTransactionCounts().get();
+    const topupAmountCount = await Resource.transactions.getTopupAmountsCounts().get();
+    const pointsCount = await Resource.points.getPointsCount().get();
+
+    this.dashboardCardStats = [
+    {
+      title: 'users',
+      color: "#3F6791",
+      icon: 'mdi-account-multiple',
+      value: userCount?.data?.count
+    },
+    {
+      title: 'topups',
+      color: "#45BB77",
+      icon: 'mdi-account-multiple',
+      value: topupCount?.data?.count
+    },
+    {
+      title: 'topup amounts',
+      color: "#BB9988",
+      icon: 'mdi-account-multiple',
+      value: topupAmountCount?.data?.count
+    },
+    {
+      title: 'points',
+      color: "#445544",
+      icon: 'mdi-account-multiple',
+      value: pointsCount?.data?.count
+    }
+  ]
+  }
 }
 </script>
 

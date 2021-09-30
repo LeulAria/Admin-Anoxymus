@@ -226,6 +226,8 @@ export interface TopupSubscriptionPlan {
 const route = "/topups";
 
 export default {
+  getTopupAmountsCounts: () => new Service<any, unknown>(`/topup-amounts/count`, "GET"),
+  getTransactionCounts: () => new Service<any, any>(`${route}/count`, "GET"),
   getAllTransactions: (query = "") =>
     new Service<Topup[], unknown>(`${route}?${query}`, "GET"),
   deleteTransaction: (id: string) =>

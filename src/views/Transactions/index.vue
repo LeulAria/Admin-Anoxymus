@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0">
     <v-card-title>
-      Transactions
+      <h3 style="font-weight: 500;">Transactions</h3> 
       <v-spacer></v-spacer>
       <div class="top-search-bar">
         <v-text-field
@@ -38,6 +38,7 @@
       :headers="headers"
       :items="users"
       :search="search"
+      style="border: 1px solid #ddd"
     >
       <template v-slot:item.destinationNumber="{item}">
         <b>+{{ item.destinationNumber }}</b>
@@ -46,14 +47,12 @@
         <div>{{ item.type | replaceAll("_", " ") }}</div>
       </template>
       <template v-slot:item.status="{item}">
-        <v-chip
-          :color="
-            getBooleanColorTriple(item.paymentInfo.status === 'PENDING' ? 0 : 1)
-          "
+        <div
+          :style="`color: ${getBooleanColorTriple(item.paymentInfo.status === 'PENDING' ? 0 : 1)}; font-weight: 500;`"
           dark
         >
           {{ item.paymentInfo.status }}
-        </v-chip>
+        </div>
       </template>
       <template v-slot:item.amount="{item}">
         <b>{{ item.paymentInfo.currency }} {{ item.paymentInfo.amount }}</b>
@@ -159,12 +158,13 @@ export default class Users extends Vue {
       value: "destinationNumber",
       align: "start",
       sortable: false,
+      divider: true
     },
-    {text: "Type", value: "type"},
-    {text: "Payment Status", value: "status"},
-    {text: "Amount", value: "amount"},
-    {text: "Created At", value: "createdAt"},
-    {text: "Actions", value: "actions", sortable: false},
+    { divider: true, text: "Type", value: "type"},
+    { divider: true, text: "Payment Status", value: "status"},
+    { divider: true, text: "Amount", value: "amount"},
+    { divider: true, text: "Created At", value: "createdAt"},
+    { divider: true, text: "Actions", value: "actions", sortable: false},
   ];
   users: Topup[] = [];
 

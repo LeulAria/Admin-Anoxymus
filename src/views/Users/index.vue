@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0">
     <v-card-title>
-      Users
+      <h3 style="font-weight: 500;">Users</h3> 
       <v-spacer></v-spacer>
       <div class="top-search-bar">
         <v-text-field
@@ -51,6 +51,7 @@
       :headers="headers"
       :items="users"
       :search="search"
+      style="border: 1px solid #ddd"
     >
       <template v-slot:item.profilePhotoUrl="{item}">
         <div style="margin: 10px">
@@ -65,14 +66,14 @@
         </div>
       </template>
       <template v-slot:item.emailVerified="{item}">
-        <v-chip :color="getBoolenColor(item.emailVerified)" dark>
+        <div :style="`color: ${getBoolenColor(item.emailVerified)}; font-weight: bold;`" dark>
           {{ item.emailVerified ? "Verified" : "Not Verified" }}
-        </v-chip>
+        </div>
       </template>
       <template v-slot:item.isBanned="{item}">
-        <v-chip :color="getBoolenColor(!item.emailVerified)" dark>
+        <div :style="`color: ${getBoolenColor(!item.emailVerified)}; font-weight: bold;`" dark>
           {{ item.emailVerified ? "Bannded" : "Active" }}
-        </v-chip>
+        </div>
       </template>
       <template v-slot:item.role="{item}">
         <b>{{ item.role.toUpperCase() }}</b>
@@ -193,16 +194,17 @@ export default class Users extends Vue {
       value: "profilePhotoUrl",
       align: "start",
       sortable: false,
+      divider: true
     },
-    {text: "Display Name", value: "displayName"},
-    {text: "Email", value: "email"},
-    {text: "Email Verified", value: "emailVerified", sortable: false},
-    {text: "Phone", value: "phone"},
-    {text: "Telegram Name", value: "telegramName"},
-    {text: "Role", value: "role"},
-    {text: "Is Banned", value: "isBanned"},
-    {text: "Updated At", value: "modifiedAt"},
-    {text: "Actions", value: "actions", sortable: false},
+    { divider: true, text: "Display Name", value: "displayName"},
+    { divider: true, text: "Email", value: "email"},
+    { divider: true, text: "Email Verified", value: "emailVerified", sortable: false},
+    { divider: true, text: "Phone", value: "phone"},
+    { divider: true, text: "Telegram Name", value: "telegramName"},
+    { divider: true, text: "Role", value: "role"},
+    { divider: true, text: "Is Banned", value: "isBanned"},
+    { divider: true, text: "Updated At", value: "modifiedAt"},
+    { divider: true, text: "Actions", value: "actions", sortable: false},
   ];
   users: User[] = [];
 

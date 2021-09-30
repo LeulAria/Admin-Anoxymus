@@ -6,15 +6,16 @@
       app
       dark
       v-model="drawer"
-      color="#222"
+      color="#343A40"
+      class="nav-drawer"
     >
-      <div class="py-3 px-5">
+      <div class="px-5">
         <h3 style="color: #FFF; text-align: center; margin: 1.2rem 0;">Remit Dashboard</h3>
       </div>
 
       <v-divider></v-divider>
 
-      <v-list rounded class="mt-6">
+      <v-list class="mt-6">
         <v-list-item class="route-nav-links" v-for="[icon, text, route] in links" :key="icon" link :to="route">
           <v-list-item-icon>
             <v-icon>{{ icon }}</v-icon>
@@ -131,16 +132,20 @@ export default class Home extends Vue {
 
 
 <style>
+.nav-drawer {
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
 .route-nav-links {
   width: 86%;
   height: 30px;
-  margin: auto;
+  margin: 0.4rem auto;
   display: flex;
   align-items: center;
-  background: rgba(0,0,0,0.1);
   border-radius: 10px !important;
 }
 .v-list-item--active {
+  overflow: hidden;
+  background: #007BFF;
   border-radius: 10px !important;
 }
 </style>
