@@ -74,7 +74,7 @@ export interface UserPost {
 const route = "/users";
 
 export default {
-  getUsersCount: () => new Service<number, unknown>(`${route}/count`, "GET"),
+  getUsersCount: () => new Service<any, unknown>(`${route}/count`, "GET"),
   getUsers: () =>
     new Service<User[], SigninWithFirebasePayload>(`${route}`, "GET"),
   signInWithFirebase: () =>

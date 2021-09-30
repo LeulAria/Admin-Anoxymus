@@ -109,7 +109,7 @@ export default class Dashboard extends Vue {
     },
     {
       title: 'points',
-      color: "#445544",
+      color: "#334433",
       icon: 'mdi-account-multiple',
       value: 0
     }
@@ -142,7 +142,7 @@ export default class Dashboard extends Vue {
     },
     {
       title: 'points',
-      color: "#445544",
+      color: "#334433",
       icon: 'mdi-account-multiple',
       value: pointsCount?.data?.count
     }
