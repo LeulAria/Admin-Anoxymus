@@ -8,9 +8,9 @@
         </v-btn>
       </div>
       <div class="d-flex flex-column align-center justify-center mb-10 mr-auto">
-        <v-avatar color="gray lighten-4" size="90">
-          <v-icon class="display-3 gray--text">mdi-account</v-icon>
-        </v-avatar>
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-credit-card-2-back-fill" viewBox="0 0 16 16">
+          <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5H0V4zm11.5 1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-2zM0 11v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1H0z"/>
+        </svg>
         <h4>Create new payment provider</h4>
       </div>
     </div>

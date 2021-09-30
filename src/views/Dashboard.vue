@@ -49,7 +49,11 @@
         lg="6"
       >
         <dashboard-recent
-          title="Users"
+          title="Latest Joined Users"
+          :value="recentJoinedUsers"
+          :loading="loadingRecentUsers"
+          ui="users-list"
+          @reloadAction="reloadRecentJoinedUsers"
         />
       </v-col>
       <v-col
@@ -59,7 +63,11 @@
         lg="3"
       >
         <dashboard-recent
-          title="Items"
+          title="Latest Transactions"
+          :value="recentTransactions"
+          :loading="loadingrecentTransactions"
+          ui="transaction-list"
+          @reloadAction="reloadRecentTransactions"
         />
       </v-col>
       <v-col
@@ -79,7 +87,6 @@ import { Component, Vue } from 'vue-property-decorator';
 import DashboardStat1 from '../components/dashboard/DashboardStat1.vue'
 import DashboardRecent from '../components/dashboard/DashboardRecent.vue'
 import * as Resource from '@/api/Resource'
-
 
 @Component({
   components: {
@@ -115,6 +122,27 @@ export default class Dashboard extends Vue {
     }
   ];
 
+  recentJoinedUsers: any = [];
+  loadingRecentUsers = true;
+
+  recentTransactions: any = [];
+  loadingrecentTransactions = true;
+
+
+  async reloadRecentJoinedUsers() {
+    this.loadingRecentUsers = true;
+    const recentUsers = await Resource.users.getUsers().get();
+    this.recentJoinedUsers = recentUsers?.data.map((user) => ({ name: user.displayName, photo: user?.profilePhotoUrl })).slice(0,4);
+    this.loadingRecentUsers = false;
+  }
+
+  async reloadRecentTransactions() {
+    this.loadingrecentTransactions = true;
+    const recentTransactionRes = await Resource.transactions.getAllTransactions().get();
+    this.recentTransactions = recentTransactionRes?.data.map((transaction) => ({ ...transaction })).slice(0,4);
+    this.loadingrecentTransactions = false;
+  }
+
   async created() {
     const userCount = await Resource.users.getUsersCount().get();
     const topupCount = await Resource.transactions.getTransactionCounts().get();
@@ -146,7 +174,14 @@ export default class Dashboard extends Vue {
       icon: 'mdi-account-multiple',
       value: pointsCount?.data?.count
     }
-  ]
+    ]
+
+    this.reloadRecentJoinedUsers();
+    this.reloadRecentTransactions();
+
+    // const recentUsers = await Resource.users.getUsers().get();
+    // this.recentJoinedUsers = recentUsers?.data.map((user) => ({ name: user.displayName, photo: user?.profilePhotoUrl })).slice(0,4);
+  
   }
 }
 </script>
