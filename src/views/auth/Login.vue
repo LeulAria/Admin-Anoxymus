@@ -1,33 +1,52 @@
 <template>
   <v-main>
     <h1 class="text-center">LOGIN</h1>
-    <v-form class="mt-10 px-10" @submit.prevent="loginUser">
-      <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        label="E-mail"
-        required
-      ></v-text-field>
-      <v-text-field
-        v-model="password"
-        :rules="emailRules"
-        type="password"
-        label="Password"
-        required
-      ></v-text-field>
-      <v-btn
-        dark
-        large
-        block
-        rounded
-        class="mt-5"
-        elevation="0"
-        color="purple"
-        type="submit"
-        :loading="loggingIn"
-        >Login</v-btn
-      >
-    </v-form>
+    <ValidationObserver ref="loginObserver">
+      <v-form class="mt-10 px-10" @submit.prevent="loginUser">
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="name"
+          rules="required|min:2"
+        >
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            label="E-mail"
+            required
+            outlined
+            rounded
+          ></v-text-field>
+        </ValidationProvider>
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="name"
+          rules="required|min:2"
+        >
+          <v-text-field
+            v-model="password"
+            :rules="emailRules"
+            type="password"
+            label="Password"
+            required
+            outlined
+            rounded
+          ></v-text-field>
+        </ValidationProvider>
+
+        <v-btn
+          dark
+          large
+          block
+          rounded
+          class="mt-5"
+          elevation="0"
+          color="purple"
+          type="submit"
+          :loading="loggingIn"
+          >Login</v-btn
+        >
+      </v-form>
+    </ValidationObserver>
   </v-main>
 </template>
 

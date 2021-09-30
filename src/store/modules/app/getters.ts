@@ -1,3 +1,3 @@
 export const globalSnackBar = (store: any) => {
-  return store.globalSnackBar
-}
+  return store.globalSnackBar;
+};

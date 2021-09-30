@@ -22,3 +22,34 @@
 .link{
   text-decoration: none;
 }
+
+
+// stle for scroll bar
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+* {
+  scrollbar-color: #888 #fbfafc;
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+*:-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #BBB;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}

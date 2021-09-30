@@ -1,29 +1,29 @@
-import Vue from 'vue';
+import Vue from "vue";
 import {
   extend,
   ValidationProvider,
   ValidationObserver,
   setInteractionMode,
-} from 'vee-validate';
-import { required, email, min, max } from 'vee-validate/dist/rules';
+} from "vee-validate";
+import { required, email, min, max } from "vee-validate/dist/rules";
 
-Vue.component('ValidationObserver', ValidationObserver);
-Vue.component('ValidationProvider', ValidationProvider);
-setInteractionMode('eager');
+Vue.component("ValidationObserver", ValidationObserver);
+Vue.component("ValidationProvider", ValidationProvider);
+setInteractionMode("eager");
 
-extend('required', {
+extend("required", {
   ...required,
-  message: '{_field_} can not be empty',
+  message: "{_field_} can not be empty",
 });
-extend('max', {
+extend("max", {
   ...max,
-  message: '{_field_} may not be greater than {length} characters',
+  message: "{_field_} may not be greater than {length} characters",
 });
-extend('min', {
+extend("min", {
   ...min,
-  message: '{_field_} may not be lesser than {length} characters',
+  message: "{_field_} may not be lesser than {length} characters",
 });
-extend('email', {
+extend("email", {
   ...email,
-  message: 'Email must be valid',
+  message: "Email must be valid",
 });

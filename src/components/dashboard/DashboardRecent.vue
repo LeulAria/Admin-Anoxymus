@@ -5,6 +5,7 @@
     <v-toolbar
       color="indigo"
       dark
+      flat
     >
       <v-toolbar-title>Inbox</v-toolbar-title>
 

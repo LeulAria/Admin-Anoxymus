@@ -13,11 +13,13 @@
         <h4>Create a new user</h4>
       </div>
     </div>
+
     <ValidationObserver ref="loginObserver">
       <form>
         <v-card max-width="800" elevation="0" class="mx-auto">
           <v-row spacing="10">
             <v-col cols="12" md="6" sm="4">
+
               <ValidationProvider
                 v-slot="{ errors }"
                 name="displayName"
@@ -32,6 +34,7 @@
                   required
                 ></v-text-field>
               </ValidationProvider>
+
               <ValidationProvider
                 v-slot="{ errors }"
                 name="phone"
@@ -46,6 +49,7 @@
                   required
                 ></v-text-field>
               </ValidationProvider>
+              
               <ValidationProvider
                 v-slot="{ errors }"
                 name="email"
@@ -60,6 +64,7 @@
                   required
                 ></v-text-field>
               </ValidationProvider>
+
               <ValidationProvider
                 v-slot="{ errors }"
                 name="profilePhotoUrl"
@@ -74,6 +79,7 @@
                   required
                 ></v-text-field>
               </ValidationProvider>
+
               <ValidationProvider
                 v-slot="{ errors }"
                 name="role"
@@ -91,6 +97,7 @@
                   single-line
                 ></v-select>
               </ValidationProvider>
+
               <br />
               <v-menu
                 ref="menu"
@@ -143,6 +150,8 @@
               </div>
             </v-col>
 
+            <v-spacer></v-spacer>
+
             <v-col cols="12" md="6" sm="4">
               <div
                 v-for="checkBoxField2 in checkBoxFields2"
@@ -185,20 +194,21 @@ import { TogglePayload } from "../../store/modules/app/state";
 export default class CreateUser extends Vue {
   email = "";
   loading = false;
+  updateItem!: any;
   toggleGlobalSnackBar!: (payload: TogglePayload) => void;
 
   activePicker = null;
   dateOfBirthMenu = false;
 
   userCred = {
-    displayName: "",
     phone: "",
     email: "",
     role: "",
+    displayName: "",
     birthDate: null,
-    profilePhotoUrl: "",
     isBanned: false,
     isInvited: false,
+    profilePhotoUrl: "",
     emailVerified: false,
     enableDiscountsSms: true,
     enableRemindersSms: true,
@@ -210,55 +220,62 @@ export default class CreateUser extends Vue {
     enableNewsAndUpdateEmail: true,
   };
 
-  checkBoxFields1 = {
-    isBanned: {
-      value: false,
-      label: "isBanned",
-    },
-    isInvited: {
-      value: false,
-      label: "isInvited",
-    },
-  };
+  checkBoxFields1: any = {};
+  checkBoxFields2: any = {};
 
-  checkBoxFields2 = {
-    emailVerified: {
-      value: false,
-      label: "emailVerified",
-    },
-    enableDiscountsSms: {
-      value: true,
-      label: "enableDiscountsSms",
-    },
-    enableRemindersSms: {
-      value: true,
-      label: "enableRemindersSms",
-    },
-    enablePromotionsSms: {
-      value: true,
-      label: "enablePromotionsSms",
-    },
-    enableDiscountsEmail: {
-      value: true,
-      label: "enableDiscountsEmail",
-    },
-    enableRemindersEmail: {
-      value: true,
-      label: "enableRemindersEmail",
-    },
-    enablePromotionsEmail: {
-      value: true,
-      label: "enablePromotionsEmail",
-    },
-    enableNewsAndUpdateSms: {
-      value: true,
-      label: "enableNewsAndUpdateSms",
-    },
-    enableNewsAndUpdateEmail: {
-      value: true,
-      label: "enableNewsAndUpdateEmail",
-    },
-  };
+  created() {
+    this.updateItem = this.$route.params.payload; 
+    console.log("UPDATED ITEM", this.updateItem);
+    this.checkBoxFields1 = {
+      isBanned: {
+        value: false,
+        label: "isBanned",
+      },
+      isInvited: {
+        value: false,
+        label: "isInvited",
+      },
+    };
+    this.checkBoxFields2 = {
+      emailVerified: {
+        value: false,
+        label: "emailVerified",
+      },
+      enableDiscountsSms: {
+        value: true,
+        label: "enableDiscountsSms",
+      },
+      enableRemindersSms: {
+        value: true,
+        label: "enableRemindersSms",
+      },
+      enablePromotionsSms: {
+        value: true,
+        label: "enablePromotionsSms",
+      },
+      enableDiscountsEmail: {
+        value: true,
+        label: "enableDiscountsEmail",
+      },
+      enableRemindersEmail: {
+        value: true,
+        label: "enableRemindersEmail",
+      },
+      enablePromotionsEmail: {
+        value: true,
+        label: "enablePromotionsEmail",
+      },
+      enableNewsAndUpdateSms: {
+        value: true,
+        label: "enableNewsAndUpdateSms",
+      },
+      enableNewsAndUpdateEmail: {
+        value: true,
+        label: "enableNewsAndUpdateEmail",
+      },
+    };
+  }
+
 
   roleSelectItems = ["user", "admin"];
 
@@ -281,7 +298,6 @@ export default class CreateUser extends Vue {
       .validate()
       .then(async (isValid: boolean) => {
         if (isValid) {
-          console.log("FORM DATA: ", this.userCred);
           try {
             if(this.userCred) {
               // @ts-ignore

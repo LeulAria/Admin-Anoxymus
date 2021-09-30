@@ -11,6 +11,7 @@
           single-line
           hide-details
         ></v-text-field>
+
         <div class="d-flex ml-5">
           <div class="ml-3">
             <v-btn color="primary" icon elevation="0" @click="fetchTopups">
@@ -158,8 +159,18 @@ export default class Users extends Vue {
     return value===0 ? "blue" : value===1 ? "green" : "red"
   }
 
-  created() {
+  async created() {
     this.fetchTopups();
+		// console.log("HARDEST TO LOVE: ", this.$route.params.payload.id);
+		const query = {
+			"where": {
+				userId: {
+					eq: "613b8747e882f50031d2d48e"
+				}
+			}
+		}
+		const res = await Resource.transactions.getAllTransactions(`?filter=${JSON.stringify(query)}`).get();
+		console.log("AWAIT: ", res)
   }
 
   setItemToDelete(item: Topup) {

@@ -8,14 +8,14 @@
       >
         <v-row spacing="5">
           <v-col
-            v-for="n in 4"
-            :key="n"
-            cols="6"
-            xs="12"
             sm="6"
+            xs="12"
+            cols="6"
+            :key="n"
+            v-for="n in 4"
           >
             <v-card
-              class="px-5 pt-4 rounded-lg min-heihgt"
+              class="indigo darken-4 white--text px-5 pt-4 rounded-lg min-heihgt"
               outlined
               tile
             >
@@ -25,7 +25,7 @@
                   <p>Users</p>
                 </div>
 
-                <v-icon class="display-2">mdi-account-multiple</v-icon>
+                <v-icon dark class="display-2">mdi-account-multiple</v-icon>
               </div>
             </v-card>
           </v-col>

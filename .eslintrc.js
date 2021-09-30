@@ -16,7 +16,11 @@ module.exports = {
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "@typescript-eslint/ban-ts-comment": "off"
+    "@typescript-eslint/ban-ts-comment": "off",
+    "endOfLine": "off",
+    "no-unused-vars": "off",
+    "vue/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off"
   },
   overrides: [
     {

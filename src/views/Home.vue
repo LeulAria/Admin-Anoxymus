@@ -1,23 +1,21 @@
 <template>
   <v-app
-    id="inspire"
+    id="app"
   >
     <v-navigation-drawer
       app
       dark
       v-model="drawer"
       color="#222"
-      src="https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
     >
       <div class="py-3 px-5">
-        <v-avatar class="mb-1" color="grey darken-4" size="64"></v-avatar>
-        <div style="color: #FFF">john@vuetifyjs.com</div>
+        <h3 style="color: #FFF; text-align: center; margin: 1.2rem 0;">Remit Dashboard</h3>
       </div>
 
       <v-divider></v-divider>
 
-      <v-list>
-        <v-list-item v-for="[icon, text, route] in links" :key="icon" link :to="route">
+      <v-list rounded class="mt-6">
+        <v-list-item class="route-nav-links" v-for="[icon, text, route] in links" :key="icon" link :to="route">
           <v-list-item-icon>
             <v-icon>{{ icon }}</v-icon>
           </v-list-item-icon>
@@ -30,10 +28,9 @@
     </v-navigation-drawer>
 
     <v-app-bar 
-      color="#222"
-      dark
-      flat
       app
+      flat
+      color="#FEFEFE"
     >
       <v-app-bar-nav-icon
         @click.stop="drawer = !drawer"
@@ -54,6 +51,7 @@
             large
             text
             outlined
+            rounded
             class="px-2 ml-3 d-none d-md-inline"
           >
             <v-avatar
@@ -63,10 +61,10 @@
               <img
                 src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light" />
             </v-avatar>
-            <span class="pl-3 d-none d-md-inline">{Username}</span>
+            <span class="pl-3 d-none d-md-inline">{{ userInfo.instance.displayName || "" }}</span>
           </v-btn>
         </template>
-        <v-list>
+        <v-list rounded>
           <v-list-item link>
             <v-list-item-title>
               View profile
@@ -90,23 +88,36 @@
 </template>
 
 <script lang="ts">
+import { User } from "@/api/config/Users";
 import { Vue, Component } from "vue-property-decorator";
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 @Component({
+  computed: {
+    ...mapGetters("user", ["isLoggedIn", "userInfo"])
+  },
   methods: {
     ...mapActions(["logOut"])
   }
 })
 export default class Home extends Vue {
+  isLoggedIn!: boolean;
+  userInfo!: User;
   cards = ["Today", "Yesterday"];
   drawer = null;
   links = [
     ["mdi-view-dashboard", "Dashboard", "/dashboard"],
     ["mdi-account-circle", "Users", "/users"],
     ["mdi-dns", "Transactions", "/transactions"],
+    ["mdi-credit-card", "Payment Provider", "/payment-provider"],
   ];
   logOut!: () => void;
+
+  created() {
+    if(this.isLoggedIn) {
+      // this.$router.push({ name: "Dashboard" })
+    }
+  }
 
   logout() {
     this.logOut();
@@ -117,3 +128,19 @@ export default class Home extends Vue {
   }
 }
 </script>
+
+
+<style>
+.route-nav-links {
+  width: 86%;
+  height: 30px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  background: rgba(0,0,0,0.1);
+  border-radius: 10px !important;
+}
+.v-list-item--active {
+  border-radius: 10px !important;
+}
+</style>

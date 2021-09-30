@@ -1,7 +1,7 @@
 import Vue from "vue";
-import store from '@/store'
+import store from "@/store";
 import VueRouter from "vue-router";
-import routes from './routes'
+import routes from "./routes";
 
 Vue.use(VueRouter);
 
@@ -16,23 +16,23 @@ router.beforeEach((to, form, next) => {
   if (to.matched.some((record: any) => record.meta.requiresAuth)) {
     if (!store.getters["user/isLoggedIn"]) {
       next({
-        name: 'Login'
+        name: "Login",
       });
     } else {
-      next()
+      next();
     }
-    next()
+    next();
   } else if (to.matched.some((record: any) => record.meta.requiresVisitor)) {
     if (store.getters["user/isLoggedIn"]) {
       next({
-        name: 'Dashboard'
-      })
+        name: "Dashboard",
+      });
     } else {
-      next()
+      next();
     }
   } else {
-    next()
+    next();
   }
-})
+});
 
 export default router;

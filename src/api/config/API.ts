@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { HOST, APP_LOGIN_ROUTE, APP_API_KEY } from './../../config/appConfig';
+import axios from "axios";
+import { HOST, APP_LOGIN_ROUTE, APP_API_KEY } from "./../../config/appConfig";
 
 // server env
 const loginURL = APP_LOGIN_ROUTE;
@@ -8,18 +8,18 @@ const apiKey = APP_API_KEY;
 
 let token = null;
 
-if(localStorage.getItem("app-cache")) {
-  token = JSON.parse(localStorage.getItem("app-cache") || "")?.user?.user?.token || null;
+if (localStorage.getItem("app-cache")) {
+  token =
+    JSON.parse(localStorage.getItem("app-cache") || "")?.user?.user?.token ||
+    null;
 }
 
 const API = axios.create({
   baseURL,
   headers: {
-    Authorization: token
-    ? 'Bearer ' + token
-    : null,
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
+    Authorization: token ? "Bearer " + token : null,
+    "Content-Type": "application/json",
+    Accept: "application/json",
     apiKey,
   },
 });

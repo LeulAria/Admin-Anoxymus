@@ -1,4 +1,4 @@
-import { User } from "@/api/config/Users"
+import { User } from "@/api/config/Users";
 
 export interface IUser {
   uid: string;
@@ -10,5 +10,5 @@ export interface IUser {
 }
 
 export const setUser = (context: any, user: User) => {
-  context.commit('SET_USER', user)
-}
+  context.commit("SET_USER", user);
+};
