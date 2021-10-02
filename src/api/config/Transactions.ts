@@ -230,6 +230,7 @@ export default {
   getTransactionCounts: () => new Service<any, any>(`${route}/count`, "GET"),
   getAllTransactions: (query = "") =>
     new Service<Topup[], unknown>(`${route}?${query}`, "GET"),
+  performTransaction: (id: string) => new Service<any, unknown>(`${route}/${id}/performTransaction`, "POST"),
   deleteTransaction: (id: string) =>
     new Service<Topup[], unknown>(`${route}/${id}`, "DELETE"),
 };

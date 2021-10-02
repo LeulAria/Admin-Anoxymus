@@ -66,6 +66,7 @@ const routes: Array<RouteConfig> = [
           requiresAuth: true,
         },
       },
+
       {
         path: "payment-provider/create",
         name: "Create PaymentProvider",
@@ -86,6 +87,31 @@ const routes: Array<RouteConfig> = [
         path: "payment-provider",
         name: "PaymentProvider",
         component: () => import("@/views/PaymentProviders/index.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+
+      {
+        path: "subscription-plan/create",
+        name: "Create SubscriptionPlan",
+        component: () => import("@/views/SubscriptionPlan/create.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "subscription-plan/:id",
+        name: "Update SubscriptionPlan",
+        component: () => import("@/views/SubscriptionPlan/update.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "subscription-plan",
+        name: "SubscriptionPlan",
+        component: () => import("@/views/SubscriptionPlan/index.vue"),
         meta: {
           requiresAuth: true,
         },

@@ -128,11 +128,10 @@ export default class Dashboard extends Vue {
   recentTransactions: any = [];
   loadingrecentTransactions = true;
 
-
   async reloadRecentJoinedUsers() {
     this.loadingRecentUsers = true;
     const recentUsers = await Resource.users.getUsers().get();
-    this.recentJoinedUsers = recentUsers?.data.map((user) => ({ name: user.displayName, photo: user?.profilePhotoUrl })).slice(0,4);
+    this.recentJoinedUsers = recentUsers?.data.map((user: any) => ({ name: user.displayName, photo: user?.profilePhotoUrl })).slice(0,4);
     this.loadingRecentUsers = false;
   }
 

@@ -1,7 +1,5 @@
 <template>
-  <v-app
-    id="app"
-  >
+  <v-app id="app">
     <v-navigation-drawer
       app
       dark
@@ -10,33 +8,36 @@
       class="nav-drawer"
     >
       <div class="px-5">
-        <h3 style="color: #FFF; text-align: center; margin: 1.2rem 0;">Remit Dashboard</h3>
+        <h3 style="color: #fff; text-align: center; margin: 1.2rem 0">
+          Remit Dashboard
+        </h3>
       </div>
 
       <v-divider></v-divider>
 
       <v-list class="mt-6">
-        <v-list-item class="route-nav-links" v-for="[icon, text, route] in links" :key="icon" link :to="route">
-          <v-list-item-icon>
-            <v-icon>{{ icon }}</v-icon>
-          </v-list-item-icon>
+        <v-tooltip bottom v-for="[icon, text, route] in links" :key="icon">
+          <template v-slot:activator="{on, attrs}">
+            <v-list-item v-bind="attrs" v-on="on" class="route-nav-links" link :to="route">
+              <v-list-item-icon>
+                <v-icon>{{ icon }}</v-icon>
+              </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>{{ text }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+          <span>{{ text }}</span>
+        </v-tooltip>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar 
-      app
-      flat
-      color="#FEFEFE"
-    >
+    <v-app-bar app flat color="#FEFEFE">
       <v-app-bar-nav-icon
         @click.stop="drawer = !drawer"
         class="hidden-lg-and-up"
-      ></v-app-bar-nav-icon>  
+      ></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>mdi-apps</v-icon>
@@ -45,7 +46,7 @@
         <v-icon>mdi-bell</v-icon>
       </v-btn>
       <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
+        <template v-slot:activator="{on, attrs}">
           <v-btn
             v-bind="attrs"
             v-on="on"
@@ -55,26 +56,22 @@
             rounded
             class="px-2 ml-3 d-none d-md-inline"
           >
-            <v-avatar
-              color="primary"
-              size="30"
-            >
+            <v-avatar color="primary" size="30">
               <img
-                src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light" />
+                src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
+              />
             </v-avatar>
-            <span class="pl-3 d-none d-md-inline">{{ userInfo.instance.displayName || "" }}</span>
+            <span class="pl-3 d-none d-md-inline">{{
+              userInfo.instance.displayName || ""
+            }}</span>
           </v-btn>
         </template>
         <v-list rounded>
           <v-list-item link>
-            <v-list-item-title>
-              View profile
-            </v-list-item-title>
+            <v-list-item-title> View profile </v-list-item-title>
           </v-list-item>
           <v-list-item link @click="logout">
-            <v-list-item-title>
-              Logout
-            </v-list-item-title>
+            <v-list-item-title> Logout </v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -89,17 +86,17 @@
 </template>
 
 <script lang="ts">
-import { User } from "@/api/config/Users";
-import { Vue, Component } from "vue-property-decorator";
-import { mapActions, mapGetters } from 'vuex';
+import {User} from "@/api/config/Users";
+import {Vue, Component} from "vue-property-decorator";
+import {mapActions, mapGetters} from "vuex";
 
 @Component({
   computed: {
-    ...mapGetters("user", ["isLoggedIn", "userInfo"])
+    ...mapGetters("user", ["isLoggedIn", "userInfo"]),
   },
   methods: {
-    ...mapActions(["logOut"])
-  }
+    ...mapActions(["logOut"]),
+  },
 })
 export default class Home extends Vue {
   isLoggedIn!: boolean;
@@ -111,12 +108,13 @@ export default class Home extends Vue {
     ["mdi-account-circle", "Users", "/users"],
     ["mdi-dns", "Transactions", "/transactions"],
     ["mdi-credit-card", "Payment Provider", "/payment-provider"],
+    ["mdi-credit-card", "Subscription Plans", "/subscription-plan"],
   ];
   logOut!: () => void;
 
   created() {
-    if(this.isLoggedIn) {
-      this.$router.push({ name: "Dashboard" })
+    if (this.isLoggedIn) {
+      this.$router.push({name: "Dashboard"});
     }
   }
 
@@ -124,7 +122,7 @@ export default class Home extends Vue {
     this.logOut();
     setTimeout(() => {
       window.location.reload();
-      this.$router.push({ name: "Login" });
+      this.$router.push({name: "Login"});
     }, 1000);
   }
 }
@@ -145,7 +143,7 @@ export default class Home extends Vue {
 }
 .v-list-item--active {
   overflow: hidden;
-  background: #007BFF;
+  background: #007bff;
   border-radius: 10px !important;
 }
 </style>
