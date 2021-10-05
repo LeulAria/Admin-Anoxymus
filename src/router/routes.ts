@@ -116,6 +116,81 @@ const routes: Array<RouteConfig> = [
           requiresAuth: true,
         },
       },
+
+      {
+        path: "points/create",
+        name: "Create Point",
+        component: () => import("@/views/Point/create.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "points/:id",
+        name: "Update Point",
+        component: () => import("@/views/Point/update.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "points",
+        name: "Point",
+        component: () => import("@/views/Point/index.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+
+      {
+        path: "invitations/create",
+        name: "Create Invitation",
+        component: () => import("@/views/Point/create.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "invitations/:id",
+        name: "Update Invitation",
+        component: () => import("@/views/Invitation/update.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "invitations",
+        name: "Invitation",
+        component: () => import("@/views/Invitation/index.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+
+      {
+        path: "remote-config/create",
+        name: "Create RemoteConfig",
+        component: () => import("@/views/RemoteConfig/create.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "remote-config/:id",
+        name: "Update RemoteConfig",
+        component: () => import("@/views/RemoteConfig/update.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "remote-config",
+        name: "RemoteConfig",
+        component: () => import("@/views/RemoteConfig/index.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
     ],
   },
   {

@@ -71,8 +71,8 @@
         </div>
       </template>
       <template v-slot:item.isBanned="{item}">
-        <div :style="`color: ${getBoolenColor(!item.emailVerified)}; font-weight: bold;`" dark>
-          {{ item.emailVerified ? "Bannded" : "Active" }}
+        <div :style="`color: ${getBoolenColor(!item.isBanned)}; font-weight: bold;`" dark>
+          {{ item.isBanned ? "Bannded" : "Active" }}
         </div>
       </template>
       <template v-slot:item.role="{item}">

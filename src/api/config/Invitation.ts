@@ -1,6 +1,43 @@
 import { Service } from "./Service";
 
+
 // types
+
+export interface Invitation {
+    createdAt: string;
+    modifiedAt: string;
+    id: string;
+    inviterId: string;
+    inviteeId: string;
+    inviter: Invitee;
+    invitee: Invitee;
+    points: Point[];
+}
+
+export interface Invitee {
+    createdAt: string;
+    modifiedAt: string;
+    id: string;
+    firebaseUserId: string;
+    displayName: string;
+    phone: string;
+    email: string;
+    emailVerified: boolean;
+    role: string;
+    isBanned: boolean;
+    isInvited: boolean;
+    enablePromotionsEmail: boolean;
+    enableNewsAndUpdateEmail: boolean;
+    enableDiscountsEmail: boolean;
+    enableRemindersEmail: boolean;
+    enablePromotionsSms: boolean;
+    enableNewsAndUpdateSms: boolean;
+    enableDiscountsSms: boolean;
+    enableRemindersSms: boolean;
+    birthDate: string;
+    invitationId: string;
+    profilePhotoUrl: string;
+}
 
 export interface Point {
     createdAt: string;
@@ -11,18 +48,8 @@ export interface Point {
     userId: string;
     invitationId: string;
     topupId: string;
-    user: User;
-    invitation: Invitation;
+    user: Invitee;
     topup: Topup;
-}
-
-export interface Invitation {
-    createdAt: string;
-    modifiedAt: string;
-    id: string;
-    inviterId: string;
-    inviteeId: string;
-    points: null[];
 }
 
 export interface Topup {
@@ -42,7 +69,7 @@ export interface Topup {
     operationId: string;
     topupSubscriptionId: string;
     topupSubscriptionPlanId: string;
-    user: User;
+    user: Invitee;
     session: Session;
     topupAmount: TopupAmount;
     operation: Operation;
@@ -124,12 +151,12 @@ export interface Payment {
     amount: number;
     currency: string;
     error: string;
-    providerInformation: string;
+    providerInformation: any;
     type: string;
     topupId: string;
     userId: string;
     paymentProviderId: string;
-    user: User;
+    user: Invitee;
     paymentProvider: PaymentProvider;
 }
 
@@ -145,32 +172,6 @@ export interface PaymentProvider {
     order: number;
     shouldRewardPoints: boolean;
     classBindingKey: string;
-}
-
-export interface User {
-    createdAt: string;
-    modifiedAt: string;
-    id: string;
-    firebaseUserId: string;
-    displayName: string;
-    phone: string;
-    email: string;
-    emailVerified: boolean;
-    role: string;
-    isBanned: boolean;
-    isInvited: boolean;
-    enablePromotionsEmail: boolean;
-    enableNewsAndUpdateEmail: boolean;
-    enableDiscountsEmail: boolean;
-    enableRemindersEmail: boolean;
-    enablePromotionsSms: boolean;
-    enableNewsAndUpdateSms: boolean;
-    enableDiscountsSms: boolean;
-    enableRemindersSms: boolean;
-    birthDate: string;
-    invitationId: string;
-    profilePhotoUrl: string;
-    invitation: Invitation;
 }
 
 export interface Session {
@@ -217,9 +218,9 @@ export interface TopupSubscriptionPlan {
 }
 
 
-const route = "/points";
+const route = "/invitations";
 
 export default {
-    getPointsCount: () => new Service<any, unknown>(`${route}/count`, "GET"),
-    getPoints: () => new Service<Point[], unknown>(`${route}`, "GET")
+    getinvitations: () => new Service<Invitation[], any>(`${route}`, "GET"),
+    deleteInvitation: (id: string) => new Service<any, any>(`${route}/${id}`, "DELETE"),
 }

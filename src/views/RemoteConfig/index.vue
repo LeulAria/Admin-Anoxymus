@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0">
     <v-card-title>
-      <h3 style="font-weight: 500;">Payment Providers</h3> 
+      <h3 style="font-weight: 500;">Remote Configs</h3> 
       <v-spacer></v-spacer>
       <div class="top-search-bar">
         <v-text-field
@@ -18,7 +18,7 @@
                 <v-icon>mdi-reload</v-icon>
               </v-btn>
             </template>
-            <span>Refresh Payment Provider</span>
+            <span>Refresh Remote Config</span>
           </v-tooltip>
         </div>
         <div class="d-flex">
@@ -26,7 +26,7 @@
             <template v-slot:activator="{on, attrs}">
               <router-link
                 class="link"
-                :to="{name: 'Create PaymentProvider', params: {userId: 123}}"
+                :to="{name: 'Create RemoteConfig', params: {userId: 123}}"
               >
                 <v-btn v-bind="attrs" v-on="on" color="primary" text elevation="0">
                   <v-icon class="mr-1">mdi-plus</v-icon>
@@ -34,7 +34,7 @@
                 </v-btn>
               </router-link>
             </template>
-            <span>Add Payment Provider</span>
+            <span>Add Remote Config</span>
           </v-tooltip>
         </div>
       </div>
@@ -43,38 +43,29 @@
     <v-data-table
       :loading="loadingUses"
       :headers="headers"
-      :items="users"
+      :items="subscriptoinPlans"
       :search="search"
       style="border: 1px solid #ddd"
     >
-      <template v-slot:item.iconUrl="{item}">
-        <div style="margin: 10px">
-          <v-avatar size="45" style="border-radius: 5px" color="primary">
-            <img v-if="item.iconUrl" :src="item.iconUrl" :alt="item.name" />
-            <v-icon v-else dark> mdi-account-circle </v-icon>
-          </v-avatar>
+      <template v-slot:item.key="{item}">
+        <div style="white-space: nowrap; font-weight: 700;">
+          {{ item.key && `${item.key.replace(/([A-Z]+)/g, " $1").replace(/([A-Z][a-z])/g, " $1")[0].toUpperCase()}${item.key.replace(/([A-Z]+)/g, " $1").replace(/([A-Z][a-z])/g, " $1").substring(1)}` }}
         </div>
       </template>
-      <template v-slot:item.name="{item}">
-        <b>{{ item.name }}</b>
+      <template v-slot:item.value="{item}">
+        <div style="white-space: nowrap; font-weight: 700;">
+          {{ item.value }}
+        </div>
       </template>
-      <template v-slot:item.activeForOneTime="{item}">
+      <template v-slot:item.canDelete="{item}">
+        <div style="white-space: nowrap; font-weight: 700;">
+          {{ item.canDelete }}
+        </div>
+      </template>
+      <template v-slot:item.active="{item}">
         <div :style="`color: ${getBoolenColor(item.activeForOneTime)}; font-weight: 600;`" dark>
           {{ item.activeForOneTime ? "Active" : "Not Active" }}
         </div>
-      </template>
-      <template v-slot:item.activeForSubscription="{item}">
-        <div :style="`color: ${getBoolenColor(item.activeForSubscription)}; font-weight: 600;`" dark>
-          {{ item.activeForSubscription ? "Active" : "Not Active" }}
-        </div>
-      </template>
-      <template v-slot:item.shouldRewardPoints="{item}">
-        <div :style="`color: ${getBoolenColor(item.shouldRewardPoints)}; font-weight: 600;`" dark>
-          {{ item.shouldRewardPoints ? "Active" : "Not Active" }}
-        </div>
-      </template>
-      <template v-slot:item.createdAt="{item}">
-        <div style="white-space: nowrap">{{ item.createdAt | dayjsDate }}</div>
       </template>
       <template v-slot:item.actions="{item}">
         <div class="d-flex">
@@ -83,16 +74,16 @@
             <template v-slot:activator="{on, attrs}">
               <v-icon v-bind="attrs" v-on="on" medium class="mr-5" @click="updateUser(item)"> mdi-pencil </v-icon>
             </template>
-            <span>Edit Payment Provider</span>
+            <span>Edit Remote Config</span>
           </v-tooltip>
 
-          <v-tooltip bottom>
+          <v-tooltip bottom v-if="item.canDelete">
             <template v-slot:activator="{on, attrs}">
               <v-icon v-bind="attrs" v-on="on" medium class="mr-5" @click="setItemToDelete(item)">
                 mdi-delete
               </v-icon>
             </template>
-            <span>Delete Payment Provider</span>
+            <span>Delete Remote Config</span>
           </v-tooltip>
         </div>
       </template>
@@ -137,11 +128,11 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component} from "vue-property-decorator";
-import {Instance, User} from "../../api/config/Users";
-import * as Resource from "../../api/Resource";
-import {TogglePayload} from "../../store/modules/app/state";
 import {mapActions} from "vuex";
+import * as Resource from "../../api/Resource";
+import {Vue, Component} from "vue-property-decorator";
+import { RemoteConfig } from "@/api/config/RemoteConfig";
+import {TogglePayload} from "../../store/modules/app/state";
 import {PaymentProvider} from "../../api/config/PaymentProvider";
 
 @Component({
@@ -154,25 +145,22 @@ export default class Users extends Vue {
   loadingUses = false;
   deletingItemPending = false;
   deleteConfirmationDialog = false;
-  itemToDelete: PaymentProvider | null = null;
+  itemToDelete: RemoteConfig | null = null;
   toggleGlobalSnackBar!: (payload: TogglePayload) => void;
   headers = [
-    { divider: true, text: "Icon Url", value: "iconUrl"},
-    { divider: true, text: "Name", value: "name", align: "start"},
-    { divider: true, text: "Identifier", value: "identifier"},
-    { divider: true, text: "Order/s", value: "order"},
-    { divider: true, text: "Active For One Time", value: "activeForOneTime"},
-    { divider: true, text: "Active For Subscription", value: "activeForSubscription"},
-    { divider: true, text: "Should Reward Points", value: "shouldRewardPoints"},
-    { divider: true, text: "Created At", value: "createdAt"},
+    { divider: true, text: "Key", value: "key" },
+    { divider: true, text: "Value", value: "value" },
+    { divider: true, text: "Can Delete", value: "canDelete" },
+    { divider: true, text: "Description", value: "description" },
     { divider: true, text: "Actions", value: "actions", sortable: false},
   ];
-  users: PaymentProvider[] = [];
+  subscriptoinPlans: PaymentProvider[] = [];
 
   async fetchUsers() {
     this.loadingUses = true;
-    const res = await Resource.paymentProviders.getPaymentProviders().get();
-    this.users = res?.data || [];
+    const res = await Resource.remoteConfig.getRemoteConfigs().get();
+    this.subscriptoinPlans = res?.data || [];
+
     this.loadingUses = false;
   }
 
@@ -184,16 +172,16 @@ export default class Users extends Vue {
     this.fetchUsers();
   }
 
-  setItemToDelete(item: PaymentProvider) {
+  setItemToDelete(item: RemoteConfig) {
     this.itemToDelete = item;
     this.deleteConfirmationDialog = true;
   }
 
-  updateUser(item: PaymentProvider) {
+  updateUser(item: RemoteConfig) {
     this.$router.push({
-      name: `Update PaymentProvider`,
+      name: `Update RemoteConfig`,
       params: {
-        id: item.name,
+        id: item.key,
         // @ts-ignore
         payload: item,
       },
@@ -205,13 +193,13 @@ export default class Users extends Vue {
       this.deleteConfirmationDialog = false;
       this.deletingItemPending = true;
       try {
-        const res = await Resource.paymentProviders
-          .deletePaymentProvider(this.itemToDelete.id || "")
+        const res = await Resource.remoteConfig
+          .removeRemoteConfig(this.itemToDelete.id || "")
           .pipe();
         this.toggleGlobalSnackBar({
           show: true,
           type: "error",
-          text: "Payment Provider deleted successfully!",
+          text: "Remote Config deleted successfully!",
         });
         this.deletingItemPending = false;
         this.fetchUsers();

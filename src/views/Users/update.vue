@@ -20,7 +20,7 @@
           <v-row spacing="10">
             <v-col cols="12" md="6" sm="4">
               <ValidationProvider
-                v-slot="{ errors }"
+                v-slot="{errors}"
                 name="displayName"
                 rules="required|min:2"
               >
@@ -34,7 +34,7 @@
                 ></v-text-field>
               </ValidationProvider>
               <ValidationProvider
-                v-slot="{ errors }"
+                v-slot="{errors}"
                 name="phone"
                 rules="required|min:2"
               >
@@ -48,7 +48,7 @@
                 ></v-text-field>
               </ValidationProvider>
               <ValidationProvider
-                v-slot="{ errors }"
+                v-slot="{errors}"
                 name="email"
                 rules="required|min:2"
               >
@@ -62,7 +62,7 @@
                 ></v-text-field>
               </ValidationProvider>
               <ValidationProvider
-                v-slot="{ errors }"
+                v-slot="{errors}"
                 name="profilePhotoUrl"
                 rules="required|min:2"
               >
@@ -76,7 +76,7 @@
                 ></v-text-field>
               </ValidationProvider>
               <ValidationProvider
-                v-slot="{ errors }"
+                v-slot="{errors}"
                 name="role"
                 rules="required|min:2"
               >
@@ -101,9 +101,9 @@
                 offset-y
                 min-width="auto"
               >
-                <template v-slot:activator="{ on, attrs }">
+                <template v-slot:activator="{on, attrs}">
                   <ValidationProvider
-                    v-slot="{ errors }"
+                    v-slot="{errors}"
                     name="profilePhotoUrl"
                     rules="required|min:2"
                   >
@@ -122,9 +122,7 @@
                   v-model="userCred.birthDate"
                   :active-picker.sync="activePicker"
                   :max="
-                    new Date(
-                      Date.now() - new Date().getTimezoneOffset() * 60000
-                    )
+                    new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
                       .toISOString()
                       .substr(0, 10)
                   "
@@ -173,22 +171,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import {Component, Vue, Prop} from "vue-property-decorator";
 import * as Resource from "../../api/Resource";
-import { mapActions } from 'vuex'
-import { TogglePayload } from "../../store/modules/app/state";
-import { Instance } from "../../api/config/Users";
+import {mapActions} from "vuex";
+import {TogglePayload} from "../../store/modules/app/state";
+import {Instance} from "../../api/config/Users";
 
 @Component({
   methods: {
-    ...mapActions("app", ["toggleGlobalSnackBar"])
-  }
+    ...mapActions("app", ["toggleGlobalSnackBar"]),
+  },
 })
 export default class CreateUser extends Vue {
   @Prop() payload!: Instance;
   email = "";
   loading = false;
   toggleGlobalSnackBar!: (payload: TogglePayload) => void;
+  updatedItem: any = {};
 
   activePicker = null;
   dateOfBirthMenu = false;
@@ -212,60 +211,64 @@ export default class CreateUser extends Vue {
     enableNewsAndUpdateSms: true,
     enableNewsAndUpdateEmail: true,
     // @ts-ignore
-    ...this.$route.params.payload
+    ...this.$route.params.payload,
   };
-
-  checkBoxFields1 = {
-    isBanned: {
-      value: false,
-      label: "isBanned",
-    },
-    isInvited: {
-      value: false,
-      label: "isInvited",
-    },
-  };
-
-  checkBoxFields2 = {
-    emailVerified: {
-      value: false,
-      label: "emailVerified",
-    },
-    enableDiscountsSms: {
-      value: true,
-      label: "enableDiscountsSms",
-    },
-    enableRemindersSms: {
-      value: true,
-      label: "enableRemindersSms",
-    },
-    enablePromotionsSms: {
-      value: true,
-      label: "enablePromotionsSms",
-    },
-    enableDiscountsEmail: {
-      value: true,
-      label: "enableDiscountsEmail",
-    },
-    enableRemindersEmail: {
-      value: true,
-      label: "enableRemindersEmail",
-    },
-    enablePromotionsEmail: {
-      value: true,
-      label: "enablePromotionsEmail",
-    },
-    enableNewsAndUpdateSms: {
-      value: true,
-      label: "enableNewsAndUpdateSms",
-    },
-    enableNewsAndUpdateEmail: {
-      value: true,
-      label: "enableNewsAndUpdateEmail",
-    },
-  };
-
+  checkBoxFields1 = {};
+  checkBoxFields2 = {};
   roleSelectItems = ["user", "admin"];
+
+  created() {
+    this.updatedItem = this.$route.params?.payload || {};
+    this.checkBoxFields1 = {
+      isBanned: {
+        value: this.updatedItem?.isBanned,
+        label: "isBanned",
+      },
+      isInvited: {
+        value: this.updatedItem?.isInvited,
+        label: "isInvited",
+      },
+    };
+
+    this.checkBoxFields2 = {
+      emailVerified: {
+        value: this.updatedItem?.emailVerified,
+        label: "emailVerified",
+      },
+      enableDiscountsSms: {
+        value: this.$route.params?.enableDiscountsSms,
+        label: "enableDiscountsSms",
+      },
+      enableRemindersSms: {
+        value: this.$route.params?.enableRemindersSms,
+        label: "enableRemindersSms",
+      },
+      enablePromotionsSms: {
+        value: this.updatedItem?.enablePromotionsSms,
+        label: "enablePromotionsSms",
+      },
+      enableDiscountsEmail: {
+        value: this.updatedItem?.enableDiscountsEmail,
+        label: "enableDiscountsEmail",
+      },
+      enableRemindersEmail: {
+        value: this.updatedItem?.enableRemindersEmail,
+        label: "enableRemindersEmail",
+      },
+      enablePromotionsEmail: {
+        value: this.updatedItem?.enablePromotionsEmail,
+        label: "enablePromotionsEmail",
+      },
+      enableNewsAndUpdateSms: {
+        value: this.updatedItem?.enableNewsAndUpdateSms,
+        label: "enableNewsAndUpdateSms",
+      },
+      enableNewsAndUpdateEmail: {
+        value: this.updatedItem?.enableNewsAndUpdateEmail,
+        label: "enableNewsAndUpdateEmail",
+      },
+    };
+  }
 
   goBack() {
     this.$router.back();
@@ -288,9 +291,12 @@ export default class CreateUser extends Vue {
         if (isValid) {
           console.log("FORM DATA: ", this.userCred);
           try {
-            if(this.userCred) {
+            if (this.userCred) {
+              const payload: any = this.$route.params.payload; 
               // @ts-ignore
-              const user = await Resource.users.updateUser(this.$route.params.payload.id).pipe(this.userCred);
+              const user = await Resource.users
+                .updateUser(payload?.id || "")
+                .pipe(this.userCred);
               this.loading = false;
               this.toggleGlobalSnackBar({
                 show: true,

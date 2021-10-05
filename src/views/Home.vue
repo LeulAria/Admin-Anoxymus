@@ -78,7 +78,7 @@
     </v-app-bar>
 
     <v-main>
-      <v-container>
+      <v-container claass="mx-5">
         <router-view></router-view>
       </v-container>
     </v-main>
@@ -108,7 +108,10 @@ export default class Home extends Vue {
     ["mdi-account-circle", "Users", "/users"],
     ["mdi-dns", "Transactions", "/transactions"],
     ["mdi-credit-card", "Payment Provider", "/payment-provider"],
-    ["mdi-credit-card", "Subscription Plans", "/subscription-plan"],
+    ["mdi-calendar-month", "Subscription Plans", "/subscription-plan"],
+    ["mdi-adjust", "Points", "/points"],
+    ["mdi-ticket-confirmation", "Invitations", "/invitations"],
+    ["mdi-library", "Remote Configs", "/remote-config"],
   ];
   logOut!: () => void;
 

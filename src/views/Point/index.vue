@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0">
     <v-card-title>
-      <h3 style="font-weight: 500;">Payment Providers</h3> 
+      <h3 style="font-weight: 500">Points</h3>
       <v-spacer></v-spacer>
       <div class="top-search-bar">
         <v-text-field
@@ -14,7 +14,14 @@
         <div class="ml-3">
           <v-tooltip bottom>
             <template v-slot:activator="{on, attrs}">
-              <v-btn v-bind="attrs" v-on="on" color="primary" icon elevation="0" @click="fetchUsers">
+              <v-btn
+                v-bind="attrs"
+                v-on="on"
+                color="primary"
+                icon
+                elevation="0"
+                @click="fetchUsers"
+              >
                 <v-icon>mdi-reload</v-icon>
               </v-btn>
             </template>
@@ -22,11 +29,11 @@
           </v-tooltip>
         </div>
         <div class="d-flex">
-          <v-tooltip bottom>
+          <!-- <v-tooltip bottom>
             <template v-slot:activator="{on, attrs}">
               <router-link
                 class="link"
-                :to="{name: 'Create PaymentProvider', params: {userId: 123}}"
+                :to="{name: 'Create Point', params: {userId: 123}}"
               >
                 <v-btn v-bind="attrs" v-on="on" color="primary" text elevation="0">
                   <v-icon class="mr-1">mdi-plus</v-icon>
@@ -35,7 +42,7 @@
               </router-link>
             </template>
             <span>Add Payment Provider</span>
-          </v-tooltip>
+          </v-tooltip> -->
         </div>
       </div>
     </v-card-title>
@@ -43,7 +50,7 @@
     <v-data-table
       :loading="loadingUses"
       :headers="headers"
-      :items="users"
+      :items="subscriptoinPlans"
       :search="search"
       style="border: 1px solid #ddd"
     >
@@ -56,21 +63,16 @@
         </div>
       </template>
       <template v-slot:item.name="{item}">
-        <b>{{ item.name }}</b>
+        <div style="white-space: nowrap; font-weight: 700">{{ item.name }}</div>
       </template>
-      <template v-slot:item.activeForOneTime="{item}">
-        <div :style="`color: ${getBoolenColor(item.activeForOneTime)}; font-weight: 600;`" dark>
+      <template v-slot:item.active="{item}">
+        <div
+          :style="`color: ${getBoolenColor(
+            item.activeForOneTime
+          )}; font-weight: 600;`"
+          dark
+        >
           {{ item.activeForOneTime ? "Active" : "Not Active" }}
-        </div>
-      </template>
-      <template v-slot:item.activeForSubscription="{item}">
-        <div :style="`color: ${getBoolenColor(item.activeForSubscription)}; font-weight: 600;`" dark>
-          {{ item.activeForSubscription ? "Active" : "Not Active" }}
-        </div>
-      </template>
-      <template v-slot:item.shouldRewardPoints="{item}">
-        <div :style="`color: ${getBoolenColor(item.shouldRewardPoints)}; font-weight: 600;`" dark>
-          {{ item.shouldRewardPoints ? "Active" : "Not Active" }}
         </div>
       </template>
       <template v-slot:item.createdAt="{item}">
@@ -78,17 +80,30 @@
       </template>
       <template v-slot:item.actions="{item}">
         <div class="d-flex">
-
           <v-tooltip bottom>
             <template v-slot:activator="{on, attrs}">
-              <v-icon v-bind="attrs" v-on="on" medium class="mr-5" @click="updateUser(item)"> mdi-pencil </v-icon>
+              <v-icon
+                v-bind="attrs"
+                v-on="on"
+                medium
+                class="mr-5"
+                @click="updateUser(item)"
+              >
+                mdi-pencil
+              </v-icon>
             </template>
             <span>Edit Payment Provider</span>
           </v-tooltip>
 
           <v-tooltip bottom>
             <template v-slot:activator="{on, attrs}">
-              <v-icon v-bind="attrs" v-on="on" medium class="mr-5" @click="setItemToDelete(item)">
+              <v-icon
+                v-bind="attrs"
+                v-on="on"
+                medium
+                class="mr-5"
+                @click="setItemToDelete(item)"
+              >
                 mdi-delete
               </v-icon>
             </template>
@@ -138,11 +153,10 @@
 
 <script lang="ts">
 import {Vue, Component} from "vue-property-decorator";
-import {Instance, User} from "../../api/config/Users";
 import * as Resource from "../../api/Resource";
 import {TogglePayload} from "../../store/modules/app/state";
 import {mapActions} from "vuex";
-import {PaymentProvider} from "../../api/config/PaymentProvider";
+import {Point} from "@/api/config/Transactions";
 
 @Component({
   methods: {
@@ -154,25 +168,22 @@ export default class Users extends Vue {
   loadingUses = false;
   deletingItemPending = false;
   deleteConfirmationDialog = false;
-  itemToDelete: PaymentProvider | null = null;
+  itemToDelete: Point | null = null;
   toggleGlobalSnackBar!: (payload: TogglePayload) => void;
   headers = [
-    { divider: true, text: "Icon Url", value: "iconUrl"},
-    { divider: true, text: "Name", value: "name", align: "start"},
-    { divider: true, text: "Identifier", value: "identifier"},
-    { divider: true, text: "Order/s", value: "order"},
-    { divider: true, text: "Active For One Time", value: "activeForOneTime"},
-    { divider: true, text: "Active For Subscription", value: "activeForSubscription"},
-    { divider: true, text: "Should Reward Points", value: "shouldRewardPoints"},
-    { divider: true, text: "Created At", value: "createdAt"},
-    { divider: true, text: "Actions", value: "actions", sortable: false},
+    {divider: true, text: "Name", value: "name"},
+    {divider: true, text: "IntervalUnit", value: "intervalUnit"},
+    {divider: true, text: "IntervalCount", value: "intervalCount"},
+    {divider: true, text: "Active", value: "active"},
+    {divider: true, text: "Created At", value: "createdAt"},
+    {divider: true, text: "Actions", value: "actions", sortable: false},
   ];
-  users: PaymentProvider[] = [];
+  subscriptoinPlans: Point[] = [];
 
   async fetchUsers() {
     this.loadingUses = true;
-    const res = await Resource.paymentProviders.getPaymentProviders().get();
-    this.users = res?.data || [];
+    const res = await Resource.points.getPoints().get();
+    this.subscriptoinPlans = res?.data || [];
     this.loadingUses = false;
   }
 
@@ -184,16 +195,16 @@ export default class Users extends Vue {
     this.fetchUsers();
   }
 
-  setItemToDelete(item: PaymentProvider) {
+  setItemToDelete(item: Point) {
     this.itemToDelete = item;
     this.deleteConfirmationDialog = true;
   }
 
-  updateUser(item: PaymentProvider) {
+  updateUser(item: Point) {
     this.$router.push({
-      name: `Update PaymentProvider`,
+      name: `Update Point`,
       params: {
-        id: item.name,
+        // id: item.email,
         // @ts-ignore
         payload: item,
       },
@@ -211,7 +222,7 @@ export default class Users extends Vue {
         this.toggleGlobalSnackBar({
           show: true,
           type: "error",
-          text: "Payment Provider deleted successfully!",
+          text: "Point deleted successfully!",
         });
         this.deletingItemPending = false;
         this.fetchUsers();
