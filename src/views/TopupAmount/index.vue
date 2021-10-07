@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0">
     <v-card-title>
-      <h3 style="font-weight: 700;">Remote Configs</h3> 
+      <h3 style="font-weight: 700;">Topup Amounts</h3> 
       <v-spacer></v-spacer>
       <div class="top-search-bar">
         <v-text-field
@@ -18,7 +18,7 @@
                 <v-icon>mdi-reload</v-icon>
               </v-btn>
             </template>
-            <span>Refresh Remote Config</span>
+            <span>Refresh Topup Amount</span>
           </v-tooltip>
         </div>
         <div class="d-flex">
@@ -26,7 +26,7 @@
             <template v-slot:activator="{on, attrs}">
               <router-link
                 class="link"
-                :to="{name: 'Create RemoteConfig', params: {userId: 123}}"
+                :to="{name: 'Create TopupAmount', params: {userId: 123}}"
               >
                 <v-btn v-bind="attrs" v-on="on" color="primary" text elevation="0">
                   <v-icon class="mr-1">mdi-plus</v-icon>
@@ -34,7 +34,7 @@
                 </v-btn>
               </router-link>
             </template>
-            <span>Add Remote Config</span>
+            <span>Add Topup Amount</span>
           </v-tooltip>
         </div>
       </div>
@@ -67,6 +67,9 @@
           {{ item.activeForOneTime ? "Active" : "Not Active" }}
         </div>
       </template>
+      <template v-slot:item.createdAt="{item}">
+        <div style="white-space: nowrap">{{ item.createdAt | dayjsDate }}</div>
+      </template>
       <template v-slot:item.actions="{item}">
         <div class="d-flex">
 
@@ -77,7 +80,7 @@
             <span>Edit Remote Config</span>
           </v-tooltip>
 
-          <v-tooltip bottom v-if="item.canDelete">
+          <v-tooltip bottom>
             <template v-slot:activator="{on, attrs}">
               <v-icon v-bind="attrs" v-on="on" medium class="mr-5" @click="setItemToDelete(item)">
                 mdi-delete
@@ -131,9 +134,8 @@
 import {mapActions} from "vuex";
 import * as Resource from "../../api/Resource";
 import {Vue, Component} from "vue-property-decorator";
-import { RemoteConfig } from "@/api/config/RemoteConfig";
 import {TogglePayload} from "../../store/modules/app/state";
-import {PaymentProvider} from "../../api/config/PaymentProvider";
+import { TopupAmount } from "@/api/config/TopupAmount";
 
 @Component({
   methods: {
@@ -145,20 +147,24 @@ export default class Users extends Vue {
   loadingUses = false;
   deletingItemPending = false;
   deleteConfirmationDialog = false;
-  itemToDelete: RemoteConfig | null = null;
+  itemToDelete: TopupAmount | null = null;
   toggleGlobalSnackBar!: (payload: TogglePayload) => void;
   headers = [
-    { divider: true, text: "Key", value: "key" },
-    { divider: true, text: "Value", value: "value" },
-    { divider: true, text: "Can Delete", value: "canDelete" },
-    { divider: true, text: "Description", value: "description" },
+    { divider: true, text: "Amount", value: "amount" },
+    { divider: true, text: "Price", value: "price" },
+    { divider: true, text: "Currency", value: "currency" },
+    { divider: true, text: "Is Hot Package", value: "isHotPackage" },
+    { divider: true, text: "Active", value: "active" },
+    { divider: true, text: "Buy Reward Point", value: "buyRewardPoint" },
+    { divider: true, text: "Invite Reward Point", value: "inviteRewardPoint" },
+    { divider: true, text: "Created At", value: "createdAt" },
     { divider: true, text: "Actions", value: "actions", sortable: false},
   ];
-  subscriptoinPlans: PaymentProvider[] = [];
+  subscriptoinPlans: TopupAmount[] = [];
 
   async fetchUsers() {
     this.loadingUses = true;
-    const res = await Resource.remoteConfig.getRemoteConfigs().get();
+    const res = await Resource.topupAmount.getTopupAmounts().get();
     this.subscriptoinPlans = res?.data || [];
 
     this.loadingUses = false;
@@ -172,16 +178,16 @@ export default class Users extends Vue {
     this.fetchUsers();
   }
 
-  setItemToDelete(item: RemoteConfig) {
+  setItemToDelete(item: TopupAmount) {
     this.itemToDelete = item;
     this.deleteConfirmationDialog = true;
   }
 
-  updateUser(item: RemoteConfig) {
+  updateUser(item: TopupAmount) {
     this.$router.push({
-      name: `Update RemoteConfig`,
+      name: `Update TopupAmount`,
       params: {
-        id: item.key,
+        id: item.id,
         // @ts-ignore
         payload: item,
       },
@@ -193,18 +199,19 @@ export default class Users extends Vue {
       this.deleteConfirmationDialog = false;
       this.deletingItemPending = true;
       try {
-        const res = await Resource.remoteConfig
-          .removeRemoteConfig(this.itemToDelete.id || "")
+        console.log(this.itemToDelete)
+        const res = await Resource.topupAmount
+          .deleteTopupAmount(this.itemToDelete.id || "")
           .pipe();
         this.toggleGlobalSnackBar({
           show: true,
-          type: "error",
-          text: "Remote Config deleted successfully!",
+          type: "success",
+          text: "Topup Amount deleted successfully!",
         });
         this.deletingItemPending = false;
         this.fetchUsers();
       } catch (e) {
-        console.log(e);
+        this.deletingItemPending = false;
         this.toggleGlobalSnackBar({
           show: true,
           type: "error",

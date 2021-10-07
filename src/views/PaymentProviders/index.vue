@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0">
     <v-card-title>
-      <h3 style="font-weight: 500;">Payment Providers</h3> 
+      <h3 style="font-weight: 700;">Payment Providers</h3> 
       <v-spacer></v-spacer>
       <div class="top-search-bar">
         <v-text-field

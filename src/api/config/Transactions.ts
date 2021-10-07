@@ -25,7 +25,7 @@ export interface Topup {
   topupSubscriptionPlan: TopupSubscriptionPlan;
   payments: Payment[];
   dtoneTransactions: DtoneTransaction[];
-  additionalProp1: any;
+  additionalProp1?: any;
 }
 
 export interface DtoneTransaction {
@@ -68,7 +68,7 @@ export interface DtoneTransaction {
   error_txt: string;
   info_txt: any;
   topupId: string;
-  additionalProp1: any;
+  additionalProp1?: any;
 }
 
 export interface Operation {
@@ -92,7 +92,7 @@ export interface Operation {
   inputDescription: string;
   inputValidationRegex: string;
   inputSanitizationRegex: string;
-  additionalProp1: any;
+  additionalProp1?: any;
 }
 
 export interface Payment {
@@ -110,7 +110,7 @@ export interface Payment {
   paymentProviderId: string;
   user: User;
   paymentProvider: PaymentProvider;
-  additionalProp1: any;
+  additionalProp1?: any;
 }
 
 export interface PaymentProvider {
@@ -125,7 +125,7 @@ export interface PaymentProvider {
   order: number;
   shouldRewardPoints: boolean;
   classBindingKey: string;
-  additionalProp1: any;
+  additionalProp1?: any;
 }
 
 export interface User {
@@ -152,7 +152,6 @@ export interface User {
   invitationId: string;
   profilePhotoUrl: string;
   invitation: Invitation;
-  additionalProp1: any;
 }
 
 export interface Invitation {
@@ -162,7 +161,7 @@ export interface Invitation {
   inviterId: string;
   inviteeId: string;
   points: Point[];
-  additionalProp1: any;
+  additionalProp1?: any;
 }
 
 export interface Point {
@@ -174,7 +173,7 @@ export interface Point {
   userId: string;
   invitationId: string;
   topupId: string;
-  additionalProp1: any;
+  additionalProp1?: any;
 }
 
 export interface Session {
@@ -187,7 +186,7 @@ export interface Session {
   active: boolean;
   userId: string;
   clientId: string;
-  additionalProp1: any;
+  additionalProp1?: any;
 }
 
 export interface TopupAmount {
@@ -204,7 +203,7 @@ export interface TopupAmount {
   inviteRewardPoint: number;
   operationId: string;
   operation: Operation;
-  additionalProp1: any;
+  additionalProp1?: any;
 }
 
 export interface TopupSubscriptionPlan {
@@ -220,7 +219,7 @@ export interface TopupSubscriptionPlan {
   paypalPlanId: string;
   topupAmount: TopupAmount;
   operation: Operation;
-  additionalProp1: any;
+  additionalProp1?: any;
 }
 
 const route = "/topups";

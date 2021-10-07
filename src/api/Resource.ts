@@ -5,3 +5,4 @@ export { default as points } from './config/Points';
 export { default as subscriptionPlans } from './config/SubscriptionPlan';
 export { default as remoteConfig } from './config/RemoteConfig';
 export { default as invitation } from './config/Invitation';
+export { default as topupAmount } from './config/TopupAmount'; 

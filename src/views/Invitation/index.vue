@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0">
     <v-card-title>
-      <h3 style="font-weight: 500">Invitations</h3>
+      <h3 style="font-weight: 700">Invitations</h3>
       <v-spacer></v-spacer>
       <div class="top-search-bar">
         <v-text-field
@@ -193,7 +193,7 @@ export default class Users extends Vue {
 
   async fetchUsers() {
     this.loadingUses = true;
-    const res = await Resource.invitation.getinvitations().get();
+    const res = await Resource.invitation.getInvitations().get();
     this.subscriptoinPlans = res?.data || [];
 
     this.loadingUses = false;

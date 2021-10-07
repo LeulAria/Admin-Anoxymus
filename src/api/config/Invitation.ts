@@ -221,6 +221,6 @@ export interface TopupSubscriptionPlan {
 const route = "/invitations";
 
 export default {
-    getinvitations: () => new Service<Invitation[], any>(`${route}`, "GET"),
+    getInvitations: () => new Service<Invitation[], any>(`${route}`, "GET"),
     deleteInvitation: (id: string) => new Service<any, any>(`${route}/${id}`, "DELETE"),
 }

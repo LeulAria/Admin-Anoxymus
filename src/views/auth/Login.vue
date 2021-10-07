@@ -1,35 +1,26 @@
 <template>
   <v-main>
-    <h1 class="text-center">LOGIN</h1>
     <ValidationObserver ref="loginObserver">
       <v-form class="mt-10 px-10" @submit.prevent="loginUser">
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="name"
-          rules="required|min:2"
-        >
+        <ValidationProvider v-slot="{errors}" name="name" rules="required|min:2">
           <v-text-field
             v-model="email"
             :rules="emailRules"
+            prepend-icon="mdi-email-outline"
             label="E-mail"
             required
-            outlined
-            rounded
           ></v-text-field>
         </ValidationProvider>
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="name"
-          rules="required|min:2"
-        >
+        <ValidationProvider v-slot="{errors}" name="name" rules="required|min:2">
           <v-text-field
             v-model="password"
             :rules="emailRules"
-            type="password"
             label="Password"
+            prepend-icon="mdi-lock-outline"
+            :type="passwordEye ?'text': 'password'"
+            :append-icon="passwordEye ? 'mdi-eye' : 'mdi-eye-off'"
             required
-            outlined
-            rounded
+            @click:append="passwordEye=!passwordEye">
           ></v-text-field>
         </ValidationProvider>
 
@@ -37,8 +28,7 @@
           dark
           large
           block
-          rounded
-          class="mt-5"
+          class="mt-4"
           elevation="0"
           color="purple"
           type="submit"
@@ -51,11 +41,11 @@
 </template>
 
 <script lang="ts">
-import { mapActions } from "vuex";
-import { auth } from "../../firebase";
+import {mapActions} from "vuex";
+import {auth} from "../../firebase";
 import * as Resource from "../../api/Resource";
-import { Vue, Component } from "vue-property-decorator";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {Vue, Component} from "vue-property-decorator";
+import {signInWithEmailAndPassword} from "firebase/auth";
 
 @Component({
   methods: {
@@ -67,29 +57,26 @@ export default class Login extends Vue {
   email = "";
   password = "";
   loggingIn = false;
+  passwordEye = false;
   toggleGlobalSnackBar!: (paylod: any) => void;
   setUser!: (user: any) => void;
 
   async loginUser() {
     this.loggingIn = true;
     try {
-      const res = await signInWithEmailAndPassword(
-        auth,
-        this.email,
-        this.password
-      );
+      const res = await signInWithEmailAndPassword(auth, this.email, this.password);
       const token = await res.user.getIdToken();
       const payload = {
         credential: {
           loginMethod: "email",
           firebaseIdToken: token || "",
         },
-      }
+      };
       const loginFBRes = await Resource.users.signInWithFirebase().pipe(payload);
 
       this.$store.dispatch("user/setUser", loginFBRes?.data);
       setTimeout(() => {
-        this.$router.push({ name: "Dashboard" })
+        this.$router.push({name: "Dashboard"});
         this.toggleGlobalSnackBar({
           show: true,
           type: "success",
@@ -102,8 +89,7 @@ export default class Login extends Vue {
       this.toggleGlobalSnackBar({
         show: true,
         type: "error",
-        text:
-          err.code?.split("/")[1] || "Unknown error pccured please try again!",
+        text: err.code?.split("/")[1] || "Unknown error pccured please try again!",
       });
     }
   }

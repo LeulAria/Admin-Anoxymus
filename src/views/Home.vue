@@ -4,7 +4,7 @@
       app
       dark
       v-model="drawer"
-      color="#343A40"
+      color="#1B1B1B"
       class="nav-drawer"
     >
       <div class="px-5">
@@ -19,13 +19,8 @@
         <v-tooltip bottom v-for="[icon, text, route] in links" :key="icon">
           <template v-slot:activator="{on, attrs}">
             <v-list-item v-bind="attrs" v-on="on" class="route-nav-links" link :to="route">
-              <v-list-item-icon>
-                <v-icon>{{ icon }}</v-icon>
-              </v-list-item-icon>
-
-              <v-list-item-content>
-                <v-list-item-title>{{ text }}</v-list-item-title>
-              </v-list-item-content>
+              <v-icon>{{ icon }}</v-icon>
+              <div style="marginLeft: 1rem; alignItem: center;font-weight: 400; font-size: .8rem;">{{ text }}</div>
             </v-list-item>
           </template>
           <span>{{ text }}</span>
@@ -104,14 +99,15 @@ export default class Home extends Vue {
   cards = ["Today", "Yesterday"];
   drawer = null;
   links = [
-    ["mdi-view-dashboard", "Dashboard", "/dashboard"],
-    ["mdi-account-circle", "Users", "/users"],
-    ["mdi-dns", "Transactions", "/transactions"],
-    ["mdi-credit-card", "Payment Provider", "/payment-provider"],
+    ["mdi-view-dashboard-outline", "Dashboard", "/dashboard"],
+    ["mdi-account-circle-outline", "Users", "/users"],
+    ["mdi-clipboard-text-outline", "Transactions", "/transactions"],
+    ["mdi-credit-card-outline", "Payment Provider", "/payment-provider"],
     ["mdi-calendar-month", "Subscription Plans", "/subscription-plan"],
     ["mdi-adjust", "Points", "/points"],
-    ["mdi-ticket-confirmation", "Invitations", "/invitations"],
-    ["mdi-library", "Remote Configs", "/remote-config"],
+    ["mdi-table-cog", "Topup Amount", "/topup-amounts"],
+    ["mdi-ticket-confirmation-outline", "Invitations", "/invitations"],
+    ["mdi-cog-outline", "Remote Configs", "/remote-config"],
   ];
   logOut!: () => void;
 
@@ -131,22 +127,20 @@ export default class Home extends Vue {
 }
 </script>
 
-
 <style>
 .nav-drawer {
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
 }
 .route-nav-links {
-  width: 86%;
-  height: 30px;
-  margin: 0.4rem auto;
+  width: 84%;
+  height: 20px !important;
+  margin: 0.2rem auto;
   display: flex;
   align-items: center;
-  border-radius: 10px !important;
+  overflow: hidden;
+  border-radius: 8px !important;
 }
 .v-list-item--active {
   overflow: hidden;
-  background: #007bff;
-  border-radius: 10px !important;
+  background: #072ba35e;
 }
 </style>

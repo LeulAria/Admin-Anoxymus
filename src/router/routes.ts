@@ -191,6 +191,31 @@ const routes: Array<RouteConfig> = [
           requiresAuth: true,
         },
       },
+
+      {
+        path: "topup-amounts/create",
+        name: "Create TopupAmount",
+        component: () => import("@/views/TopupAmount/create.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "topup-amounts/:id",
+        name: "Update TopupAmount",
+        component: () => import("@/views/TopupAmount/update.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "topup-amounts",
+        name: "TopupAmounts",
+        component: () => import("@/views/TopupAmount/index.vue"),
+        meta: {
+          requiresAuth: true,
+        },
+      },
     ],
   },
   {

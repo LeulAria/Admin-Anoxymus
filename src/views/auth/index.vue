@@ -49,11 +49,11 @@ export default class Login extends Vue {}
   width: 60%;
   max-width: 450px;
   padding: 2rem;
-  min-height: 400px;
-  backdrop-filter: blur(10px) saturate(95%);
+  min-height: 340px;
+  backdrop-filter: blur(5px) saturate(95%);
   -webkit-backdrop-filter: blur(20px) saturate(90%);
-  background-color: rgba(255, 255, 255, 0.39);
-  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.59);
+  border-radius: 8px;
   border: 1px solid rgba(209, 213, 219, 0.3);
 }
 </style>
